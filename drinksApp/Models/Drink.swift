@@ -8,11 +8,30 @@
 
 import UIKit
 
-struct Result: Codable {
+struct ResultList: Codable {
+    var drinks: [DrinkList]
+    
+    enum CodingKeys: String, CodingKey {
+        case drinks = "drinks"
+    }
+}
+
+struct ResultDrink: Codable {
     var drink: [Drink]
     
     enum CodingKeys: String, CodingKey {
         case drink = "drinks"
+    }
+}
+
+struct DrinkList: Codable {
+    var id: String?
+    var name: String?
+    var thumb: String?
+    private enum CodingKeys: String, CodingKey {
+        case id = "idDrink"
+        case name = "strDrink"
+        case thumb = "strDrinkThumb"
     }
 }
 

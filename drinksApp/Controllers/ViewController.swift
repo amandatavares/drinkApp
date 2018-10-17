@@ -11,21 +11,8 @@ import UIKit
 class ViewController: UIViewController {
     @IBOutlet weak var categoriesCollectionView: UICollectionView!
     @IBOutlet weak var drinksCollectionView: UICollectionView!
-    var drinks:[Drink] = []
-    
-//    var categoryCollectionLayout: UICollectionViewFlowLayout = {
-//        let categoryCollectionLayout = UICollectionViewFlowLayout()
-//        let categoryWidth = 80.0
-//        categoryCollectionLayout.estimatedItemSize = CGSize(width: categoryWidth, height: 40.0)
-//        return categoryCollectionLayout
-//    }()
-//
-//    var drinkCollectionLayout: UICollectionViewFlowLayout = {
-//        let drinkCollectionLayout = UICollectionViewFlowLayout()
-//        let drinkWidth = 200.0
-//        drinkCollectionLayout.estimatedItemSize = CGSize(width: drinkWidth, height: 170.0)
-//        return drinkCollectionLayout
-//    }()
+    var drinks:[DrinkList] = []
+    var responseManager:ResponseManager? = ResponseManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,33 +24,15 @@ class ViewController: UIViewController {
         
         // Register cells
         self.categoriesCollectionView.register(UINib.init(nibName: "CategoryCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "categoryCell")
-//        self.categoriesCollectionView.collectionViewLayout = categoryCollectionLayout
 
         self.drinksCollectionView.register(UINib.init(nibName: "DrinkCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "drinkCell")
-//        self.drinksCollectionView.collectionViewLayout = drinkCollectionLayout
         
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Call API data
-        let url = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic"
-        guard let apiBase = URL(string: url) else { return }
-        URLSession.shared.dataTask(with: apiBase) { (data, response
-            , error) in
-            guard let data = data else { return }
-            do {
-                let decoder = JSONDecoder()
-                let drinks = try decoder.decode(Result.self, from: data)
-               
-                self.drinks = drinks.drink
-                DispatchQueue.main.async {
-                    self.drinksCollectionView.reloadData()
-                }
-                
-            } catch let err {
-                print("Err", err)
-            }
-        }.resume()
+        drinks = responseManager!.getAllDrinks()
+        self.drinksCollectionView.reloadData()
     }
 }
 
@@ -100,12 +69,11 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
         }
         let inset: CGFloat = 15
         //let minimumLineSpacing: CGFloat = 10
-        let minimumInteritemSpacing: CGFloat = 10
+        let minimumInteritemSpacing: CGFloat = 15
         let cellsPerRow = 2
         let marginsAndInsets = inset * 2 + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
         let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow)).rounded(.down)
-        print(itemWidth)
-        return CGSize(width: itemWidth, height: itemWidth+30)
+        return CGSize(width: itemWidth, height: itemWidth+20)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 10.0

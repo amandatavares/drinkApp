@@ -13,13 +13,16 @@ class DrinkCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var drinkImageView: UIImageView!
     @IBOutlet weak var drinkNameLabel: UILabel!
     @IBOutlet weak var drinkCategoryLabel: UILabel!
+    var id: String?
+    var category: String?
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        self.layer.addShadow()
+        
     }
     
-    public func configure(with model: Drink) {
+    public func configure(with model: DrinkList) {
         
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
@@ -45,13 +48,9 @@ class DrinkCollectionViewCell: UICollectionViewCell {
         }
         
         drinkNameLabel.text = model.name!
-        drinkNameLabel.numberOfLines = 0
-        drinkNameLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
-        drinkNameLabel.sizeToFit()
-        
-        drinkCategoryLabel.text = model.category ?? "Sem categoria"
+        self.id = model.id
         
         
-        self.contentView.backgroundColor = #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1)
+        //drinkCategoryLabel.text = model.category ?? "Sem categoria"
     }
 }
