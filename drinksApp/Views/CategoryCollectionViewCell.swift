@@ -11,10 +11,15 @@ import UIKit
 class CategoryCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var categoryView: UIView!
     @IBOutlet weak var categoryNameLabel: UILabel!
+    let responseData: ResponseManager = ResponseManager()
+    var category: [Category]?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
+    public func configure(with model: Category) {
+        self.categoryNameLabel.text = model.name!
+    }
 }

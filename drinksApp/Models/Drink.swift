@@ -8,19 +8,12 @@
 
 import UIKit
 
+// Structs to get list of drinks
 struct ResultList: Codable {
     var drinks: [DrinkList]
     
     enum CodingKeys: String, CodingKey {
         case drinks = "drinks"
-    }
-}
-
-struct ResultDrink: Codable {
-    var drink: [Drink]
-    
-    enum CodingKeys: String, CodingKey {
-        case drink = "drinks"
     }
 }
 
@@ -32,6 +25,15 @@ struct DrinkList: Codable {
         case id = "idDrink"
         case name = "strDrink"
         case thumb = "strDrinkThumb"
+    }
+}
+
+// Structs to get individual drinks
+struct ResultDrink: Codable {
+    var drink: [Drink]
+    
+    enum CodingKeys: String, CodingKey {
+        case drink = "drinks"
     }
 }
 

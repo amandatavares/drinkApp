@@ -20,6 +20,8 @@
 		815ADB0321764DD000028CC4 /* Drink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815ADB0221764DD000028CC4 /* Drink.swift */; };
 		81AA667E2177AB2E008DA53E /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AA667D2177AB2E008DA53E /* Layout.swift */; };
 		81AA66812177B522008DA53E /* ResponseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AA66802177B522008DA53E /* ResponseManager.swift */; };
+		81AA668321783B6E008DA53E /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AA668221783B6E008DA53E /* Category.swift */; };
+		81AA66852178A5A0008DA53E /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AA66842178A5A0008DA53E /* CoreDataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +40,8 @@
 		815ADB0221764DD000028CC4 /* Drink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drink.swift; sourceTree = "<group>"; };
 		81AA667D2177AB2E008DA53E /* Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Layout.swift; sourceTree = "<group>"; };
 		81AA66802177B522008DA53E /* ResponseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseManager.swift; sourceTree = "<group>"; };
+		81AA668221783B6E008DA53E /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		81AA66842178A5A0008DA53E /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				815ADB0221764DD000028CC4 /* Drink.swift */,
+				81AA668221783B6E008DA53E /* Category.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -116,6 +121,7 @@
 			children = (
 				81AA667D2177AB2E008DA53E /* Layout.swift */,
 				81AA66802177B522008DA53E /* ResponseManager.swift */,
+				81AA66842178A5A0008DA53E /* CoreDataManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -198,8 +204,10 @@
 				81AA66812177B522008DA53E /* ResponseManager.swift in Sources */,
 				815ADAE12176064C00028CC4 /* ViewController.swift in Sources */,
 				815ADADF2176064C00028CC4 /* AppDelegate.swift in Sources */,
+				81AA668321783B6E008DA53E /* Category.swift in Sources */,
 				81AA667E2177AB2E008DA53E /* Layout.swift in Sources */,
 				815ADB0321764DD000028CC4 /* Drink.swift in Sources */,
+				81AA66852178A5A0008DA53E /* CoreDataManager.swift in Sources */,
 				815ADAFC21762A9700028CC4 /* DrinkCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

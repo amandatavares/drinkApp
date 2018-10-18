@@ -15,15 +15,16 @@ class DrinkCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var drinkCategoryLabel: UILabel!
     var id: String?
     var category: String?
+    let responseData: ResponseManager = ResponseManager()
+    var drink: Drink?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         self.layer.addShadow()
-        
     }
     
     public func configure(with model: DrinkList) {
-        
+    
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
         if let url = URL(string: model.thumb ?? "https://via.placeholder.com/150x100"){
@@ -49,6 +50,12 @@ class DrinkCollectionViewCell: UICollectionViewCell {
         
         drinkNameLabel.text = model.name!
         self.id = model.id
+        responseData.getDrinkBy(id: self.id!) { drink in
+            self.drink = drink
+            DispatchQueue.main.async {
+                self.drinkCategoryLabel.text = self.drink?.category
+            }
+        }
         
         
         //drinkCategoryLabel.text = model.category ?? "Sem categoria"

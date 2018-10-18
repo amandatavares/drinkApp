@@ -12,6 +12,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var categoriesCollectionView: UICollectionView!
     @IBOutlet weak var drinksCollectionView: UICollectionView!
     var drinks:[DrinkList] = []
+    var categories:[Category] = []
+    
     var responseManager:ResponseManager? = ResponseManager()
     
     override func viewDidLoad() {
@@ -26,13 +28,23 @@ class ViewController: UIViewController {
         self.categoriesCollectionView.register(UINib.init(nibName: "CategoryCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "categoryCell")
 
         self.drinksCollectionView.register(UINib.init(nibName: "DrinkCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "drinkCell")
-        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Call API data
-        drinks = responseManager!.getAllDrinks()
-        self.drinksCollectionView.reloadData()
+        responseManager!.getAllDrinks(){ drinks in
+            self.drinks = drinks
+            DispatchQueue.main.async {
+                self.drinksCollectionView.reloadData()
+            }
+        }
+        responseManager!.getCategories(){ categories in
+            self.categories = categories
+            
+            DispatchQueue.main.async {
+                self.categoriesCollectionView.reloadData()
+            }
+        }
     }
 }
 
@@ -41,7 +53,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.categoriesCollectionView {
-            return 1
+            return self.categories.count
         }
         // else return drinks count
         return self.drinks.count
@@ -51,8 +63,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
         // return categories
         if collectionView == self.categoriesCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCell", for: indexPath) as! CategoryCollectionViewCell
-            cell.categoryNameLabel.text = "Cocktail"
-            cell.categoryView.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+            cell.configure(with: self.categories[indexPath.row])
             return cell
         }
         else {
