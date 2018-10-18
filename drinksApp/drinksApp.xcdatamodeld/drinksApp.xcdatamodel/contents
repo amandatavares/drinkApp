@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14315.18" systemVersion="18A391" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="CategoryLocal" representedClassName="CategoryLocal" syncable="YES" codeGenerationType="class">
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="drinks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DrinkLocal" inverseName="category" inverseEntity="DrinkLocal" syncable="YES"/>
-    </entity>
     <entity name="DrinkLocal" representedClassName="DrinkLocal" syncable="YES" codeGenerationType="class">
+        <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="direction" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="thumb" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CategoryLocal" inverseName="drinks" inverseEntity="CategoryLocal" syncable="YES"/>
         <relationship name="ingredients" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Ingredient" inverseName="drink" inverseEntity="Ingredient" syncable="YES"/>
     </entity>
     <entity name="Ingredient" representedClassName="Ingredient" syncable="YES" codeGenerationType="class">
-        <attribute name="attribute" optional="YES" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="drink" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DrinkLocal" inverseName="ingredients" inverseEntity="DrinkLocal" syncable="YES"/>
         <relationship name="measure" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Measure" inverseName="ingredient" inverseEntity="Measure" syncable="YES"/>
@@ -23,9 +18,8 @@
         <relationship name="ingredient" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Ingredient" inverseName="measure" inverseEntity="Ingredient" syncable="YES"/>
     </entity>
     <elements>
-        <element name="CategoryLocal" positionX="-72.328125" positionY="-193.6015625" width="128" height="75"/>
         <element name="DrinkLocal" positionX="-392.04296875" positionY="-133.8515625" width="128" height="135"/>
-        <element name="Ingredient" positionX="-36" positionY="45" width="128" height="105"/>
+        <element name="Ingredient" positionX="-36" positionY="45" width="128" height="90"/>
         <element name="Measure" positionX="272.12109375" positionY="74.77734375" width="128" height="75"/>
     </elements>
 </model>

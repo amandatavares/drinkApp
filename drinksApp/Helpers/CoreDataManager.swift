@@ -18,8 +18,8 @@ class CoreDataManager: NSObject {
             drink.name = name
             drink.direction = direction
             drink.thumb = thumb
-            drink.category?.name = category
-            
+            drink.category = category
+            //drink.ingredients = ingredients
             try? context.save()
         }
     }

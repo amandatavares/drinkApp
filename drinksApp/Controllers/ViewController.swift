@@ -29,6 +29,17 @@ class ViewController: UIViewController {
 
         self.drinksCollectionView.register(UINib.init(nibName: "DrinkCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "drinkCell")
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if let navigation = segue.destination as? UINavigationController,
+//            let newTripVc = navigation.topViewController as? NewTripViewController {
+//            newTripVc.delegate = self
+//        }
+        if let newDrinkVC = segue.destination as? NewDrinkViewController {
+                newDrinkVC.categories = self.categories
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Call API data
