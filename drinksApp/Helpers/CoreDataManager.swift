@@ -13,13 +13,16 @@ import CoreData
 class CoreDataManager: NSObject {
     var context: NSManagedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    public func saveDrink(name: String, direction: String, thumb: String, category: String) {
+    public func saveDrink(name: String, ingredients: [Ingredient], direction: String, thumb: String, category: String) {
         if let drink = NSEntityDescription.insertNewObject(forEntityName: "DrinkLocal", into: self.context) as? DrinkLocal {
             drink.name = name
             drink.direction = direction
             drink.thumb = thumb
             drink.category = category
             //drink.ingredients = ingredients
+            for ingredient in ingredients {
+                drink.addToIngredients(ingredient)
+            }
             try? context.save()
         }
     }
@@ -38,7 +41,7 @@ class CoreDataManager: NSObject {
     public func editUserDrink(name: String, direction: String, thumb: String, category: String, drink: DrinkLocal){
         
         drink.setValuesForKeys(["name" : name, "direction" : direction, "thumb": thumb])
-        drink.category?.name = category
+        drink.category = category
         
         try? context.save()
     }

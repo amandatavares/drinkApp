@@ -14,6 +14,7 @@ class NewDrinkViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var ingredientTextField: UITextField!
+    @IBOutlet weak var measureTextField: UITextField!
     @IBOutlet weak var directionsTextField: UITextField!
     @IBOutlet weak var drinkImageView: UIImageView!
     @IBOutlet weak var categoryPicker: UIPickerView!
@@ -51,12 +52,11 @@ class NewDrinkViewController: UIViewController {
     @IBAction func saveNewDrink(_ sender: Any) {
         // TODO: Component to add new inputs to new ingredients and them to a list. change ingredients type on CoreManager
         if let name = nameTextField.text,
-            let ingredient = ingredientTextField.text,
             let directions = directionsTextField.text,
             let category = category,
             let thumb = imageSavedUrl {
         
-                manager.saveDrink(name: name, ingredient: ingredient, direction: directions, thumb: thumb, category: category)
+                manager.saveDrink(name: name, ingredients: self.ingredients!, direction: directions, thumb: thumb, category: category)
             
                 self.dismiss(animated: true, completion: nil)
         }
@@ -70,9 +70,12 @@ class NewDrinkViewController: UIViewController {
     
     @IBAction func addIngredient(_ sender: Any) {
         let ingredientName = self.ingredientTextField.text!
-        let ingredient: Ingredient = Ingredient()
-        ingredient.name = ingredientName
-        self.ingredients?.append(ingredient)
+        let ingredientMeasure = self.ingredientTextField.text!
+        
+        let ingredient: Ingredient? = Ingredient()
+        ingredient!.name = ingredientName
+        ingredient!.measure = ingredientMeasure
+        self.ingredients?.append(ingredient!)
         self.ingredientsTableView.reloadData()
     }
 }
@@ -173,7 +176,8 @@ extension NewDrinkViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = self.ingredients?[indexPath.row].name
+        cell.textLabel?.text = self.ingredients?[indexPath.row].name!
+        cell.detailTextLabel?.text = self.ingredients?[indexPath.row].measure!
         return cell
     }
     
