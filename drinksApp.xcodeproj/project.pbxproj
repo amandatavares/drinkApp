@@ -25,6 +25,7 @@
 		81AA66872178C0A4008DA53E /* NewDrinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AA66862178C0A4008DA53E /* NewDrinkViewController.swift */; };
 		81AA66892178C0BB008DA53E /* UserSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AA66882178C0BB008DA53E /* UserSelectionViewController.swift */; };
 		81AA668B2178C0CC008DA53E /* DrinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AA668A2178C0CC008DA53E /* DrinkViewController.swift */; };
+		81AA6691217A210B008DA53E /* GlobalFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AA6690217A210B008DA53E /* GlobalFunctions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		81AA66862178C0A4008DA53E /* NewDrinkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDrinkViewController.swift; sourceTree = "<group>"; };
 		81AA66882178C0BB008DA53E /* UserSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSelectionViewController.swift; sourceTree = "<group>"; };
 		81AA668A2178C0CC008DA53E /* DrinkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkViewController.swift; sourceTree = "<group>"; };
+		81AA6690217A210B008DA53E /* GlobalFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFunctions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +133,7 @@
 				81AA667D2177AB2E008DA53E /* Layout.swift */,
 				81AA66802177B522008DA53E /* ResponseManager.swift */,
 				81AA66842178A5A0008DA53E /* CoreDataManager.swift */,
+				81AA6690217A210B008DA53E /* GlobalFunctions.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -210,6 +213,7 @@
 			files = (
 				815ADAE72176064C00028CC4 /* drinksApp.xcdatamodeld in Sources */,
 				815ADB0021762AAD00028CC4 /* CategoryCollectionViewCell.swift in Sources */,
+				81AA6691217A210B008DA53E /* GlobalFunctions.swift in Sources */,
 				81AA66812177B522008DA53E /* ResponseManager.swift in Sources */,
 				815ADAE12176064C00028CC4 /* ViewController.swift in Sources */,
 				815ADADF2176064C00028CC4 /* AppDelegate.swift in Sources */,

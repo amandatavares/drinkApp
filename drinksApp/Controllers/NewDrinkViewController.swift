@@ -24,6 +24,7 @@ class NewDrinkViewController: UIViewController {
     
     var drink: DrinkLocal?
     var manager: CoreDataManager = CoreDataManager()
+    var helper: GlobalFunctions = GlobalFunctions()
     var imageSavedUrl: String?
     var category: String?
     var categories: [Category]?
@@ -111,41 +112,17 @@ extension NewDrinkViewController {
         }
     }
     func saveImageDocumentDirectory(image: UIImage) -> String{
-        let filename = getCurrentDate().appending(".jpg")
-        let filepath = getDocumentsDirectory() + "/" + filename
+        let filename = helper.getCurrentDate().appending(".jpg")
+        let filepath = helper.getDocumentsDirectory() + "/" + filename
 
 //        let url = NSURL.fileURL(withPath: filepath)
 //        do {
             let image = image.jpegData(compressionQuality: 1.0)
             FileManager.default.createFile(atPath: filepath, contents: image, attributes: nil)
-            return filepath
-//        } catch {
-//            print(error)
-//            print("file cant not be save at path \(filepath), with error : \(error)");
-//            return filepath
-//        }
+            return filename
+
     }
-    func getDocumentsDirectory() -> String {
-        let directoryPath = FileManager.default.urls(for: FileManager.SearchPathDirectory.libraryDirectory, in: .userDomainMask).first!
-        // let directoryPath = NSHomeDirectory().appending("/Images/")
-        if !FileManager.default.fileExists(atPath: directoryPath.path) {
-            do {
-                try FileManager.default.createDirectory(at: NSURL.fileURL(withPath: directoryPath.path), withIntermediateDirectories: true, attributes: nil)
-            } catch {
-                print(error)
-            }
-        }
-        return directoryPath.path
-    }
-    func getCurrentDate() -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        let myString = formatter.string(from: Date())
-        let yourDate = formatter.date(from: myString)
-        formatter.dateFormat = "yyyyMMddHHmmss"
-        let myStringafd = formatter.string(from: yourDate!)
-        return myStringafd
-    }
+   
     
 }
 

@@ -13,10 +13,13 @@ class DrinkCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var drinkImageView: UIImageView!
     @IBOutlet weak var drinkNameLabel: UILabel!
     @IBOutlet weak var drinkCategoryLabel: UILabel!
+    let responseData: ResponseManager = ResponseManager()
+    var coreData: CoreDataManager = CoreDataManager()
+    
     var id: String?
     var category: String?
-    let responseData: ResponseManager = ResponseManager()
     var drink: Drink?
+    var drinkLocal: DrinkLocal?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -59,5 +62,21 @@ class DrinkCollectionViewCell: UICollectionViewCell {
         
         
         //drinkCategoryLabel.text = model.category ?? "Sem categoria"
+    }
+    
+    public func configure(with model: DrinkLocal) {
+        
+        let helper: GlobalFunctions = GlobalFunctions()
+        
+        let fileName = model.thumb!
+        let fileURL = NSURL(fileURLWithPath: helper.getDocumentsDirectory()).appendingPathComponent(fileName)
+        if let imageData = NSData(contentsOf: fileURL!) {
+            let image = UIImage(data: imageData as Data) // Here you can attach image to UIImageView
+            drinkImageView.image = image
+        }
+        
+        drinkNameLabel.text = model.name!
+        drinkCategoryLabel.text = model.category!
+       
     }
 }
