@@ -12,10 +12,12 @@ import CoreData
 class NewDrinkViewController: UIViewController {
 
     @IBOutlet weak var scrollView: UIScrollView!
+    
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var ingredientTextField: UITextField!
     @IBOutlet weak var measureTextField: UITextField!
     @IBOutlet weak var directionsTextField: UITextField!
+    
     @IBOutlet weak var drinkImageView: UIImageView!
     @IBOutlet weak var categoryPicker: UIPickerView!
     @IBOutlet weak var ingredientsTableView: UITableView!
@@ -25,15 +27,24 @@ class NewDrinkViewController: UIViewController {
     var imageSavedUrl: String?
     var category: String?
     var categories: [Category]?
-    var ingredients: [Ingredient]?
+    var ingredients: [Ingredient]? = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         categoryPicker.dataSource = self
         categoryPicker.delegate = self
+        ingredientsTableView.dataSource = self
         
         scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.view.frame.height+200)
-
+        
+        nameTextField.delegate = self
+        ingredientTextField.delegate = self
+        measureTextField.delegate = self
+        directionsTextField.delegate = self
+        
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(keyboardWillHide), name:UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @IBAction func addDrinkImage(_ sender: Any) {
@@ -69,13 +80,15 @@ class NewDrinkViewController: UIViewController {
     }
     
     @IBAction func addIngredient(_ sender: Any) {
-        let ingredientName = self.ingredientTextField.text!
-        let ingredientMeasure = self.ingredientTextField.text!
+        var ingredient: Ingredient? = Ingredient()
         
-        let ingredient: Ingredient? = Ingredient()
-        ingredient!.name = ingredientName
-        ingredient!.measure = ingredientMeasure
+        if let name = self.ingredientTextField.text,
+            let measure = self.measureTextField.text {
+                ingredient = manager.saveIngredient(name: name, measure: measure)
+                //print(ingredient!)
+        }
         self.ingredients?.append(ingredient!)
+        //print(self.ingredients!)
         self.ingredientsTableView.reloadData()
     }
 }
@@ -99,37 +112,41 @@ extension NewDrinkViewController {
     }
     func saveImageDocumentDirectory(image: UIImage) -> String{
         let filename = getCurrentDate().appending(".jpg")
-        let filepath = getDocumentsDirectory().appending(filename)
-        let url = NSURL.fileURL(withPath: filepath)
-        do {
-            try image.jpegData(compressionQuality: 1.0)?.write(to: url, options: .atomic)
-            return String.init("/Images/\(filename)")
-        } catch {
-            print(error)
-            print("file cant not be save at path \(filepath), with error : \(error)");
+        let filepath = getDocumentsDirectory() + "/" + filename
+
+//        let url = NSURL.fileURL(withPath: filepath)
+//        do {
+            let image = image.jpegData(compressionQuality: 1.0)
+            FileManager.default.createFile(atPath: filepath, contents: image, attributes: nil)
             return filepath
-        }
+//        } catch {
+//            print(error)
+//            print("file cant not be save at path \(filepath), with error : \(error)");
+//            return filepath
+//        }
     }
     func getDocumentsDirectory() -> String {
-        let directoryPath =  NSHomeDirectory().appending("/Images/")
-        if !FileManager.default.fileExists(atPath: directoryPath) {
+        let directoryPath = FileManager.default.urls(for: FileManager.SearchPathDirectory.libraryDirectory, in: .userDomainMask).first!
+        // let directoryPath = NSHomeDirectory().appending("/Images/")
+        if !FileManager.default.fileExists(atPath: directoryPath.path) {
             do {
-                try FileManager.default.createDirectory(at: NSURL.fileURL(withPath: directoryPath), withIntermediateDirectories: true, attributes: nil)
+                try FileManager.default.createDirectory(at: NSURL.fileURL(withPath: directoryPath.path), withIntermediateDirectories: true, attributes: nil)
             } catch {
                 print(error)
             }
         }
-        return directoryPath
+        return directoryPath.path
     }
     func getCurrentDate() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let myString = formatter.string(from: Date())
         let yourDate = formatter.date(from: myString)
-        formatter.dateFormat = "ddMMMyyyy"
+        formatter.dateFormat = "yyyyMMddHHmmss"
         let myStringafd = formatter.string(from: yourDate!)
         return myStringafd
     }
+    
 }
 
 extension NewDrinkViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -140,7 +157,7 @@ extension NewDrinkViewController: UIImagePickerControllerDelegate, UINavigationC
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             self.drinkImageView.image = image
             imageSavedUrl = self.saveImageDocumentDirectory(image: image)
-            print(imageSavedUrl!)
+            print("------------\(imageSavedUrl!)")
         } else {
             print("Something went wrong")
         }
@@ -171,7 +188,7 @@ extension NewDrinkViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 
 extension NewDrinkViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (ingredients?.count)!
+        return self.ingredients!.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -180,6 +197,28 @@ extension NewDrinkViewController: UITableViewDataSource {
         cell.detailTextLabel?.text = self.ingredients?[indexPath.row].measure!
         return cell
     }
+}
+
+extension NewDrinkViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
     
+    @objc func keyboardWillShow(notification:NSNotification){
+        
+        var userInfo = notification.userInfo!
+        var keyboardFrame:CGRect = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+        keyboardFrame = self.view.convert(keyboardFrame, from: nil)
+        
+        var contentInset:UIEdgeInsets = self.scrollView.contentInset
+        contentInset.bottom = keyboardFrame.size.height
+        scrollView.contentInset = contentInset
+    }
     
+    @objc func keyboardWillHide(notification:NSNotification){
+        
+        let contentInset:UIEdgeInsets = UIEdgeInsets.zero
+        scrollView.contentInset = contentInset
+    }
 }

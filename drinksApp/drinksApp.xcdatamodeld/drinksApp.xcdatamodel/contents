@@ -6,14 +6,15 @@
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="thumb" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="ingredients" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Ingredient" syncable="YES"/>
+        <relationship name="ingredients" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Ingredient" inverseName="drink" inverseEntity="Ingredient" syncable="YES"/>
     </entity>
     <entity name="Ingredient" representedClassName="Ingredient" syncable="YES" codeGenerationType="class">
         <attribute name="measure" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="drink" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DrinkLocal" inverseName="ingredients" inverseEntity="DrinkLocal" syncable="YES"/>
     </entity>
     <elements>
         <element name="DrinkLocal" positionX="-392.04296875" positionY="-133.8515625" width="128" height="135"/>
-        <element name="Ingredient" positionX="-36" positionY="45" width="128" height="75"/>
+        <element name="Ingredient" positionX="-36" positionY="45" width="128" height="90"/>
     </elements>
 </model>

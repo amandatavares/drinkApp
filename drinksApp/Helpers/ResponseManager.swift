@@ -42,7 +42,7 @@ class ResponseManager {
     
     func getDrinkBy(id:String, completion: @escaping (Drink)->Void) {
         //var drinkResult: Drink?
-        print(urlBase+lookup+id)
+        //print(urlBase+lookup+id)
         if let apiBase = URL(string: urlBase+lookup+id) {
         URLSession.shared.dataTask(with: apiBase) { (data, response
             , error) in
@@ -50,10 +50,10 @@ class ResponseManager {
             do {
                 let decoder = JSONDecoder()
                 let resultDrink = try decoder.decode(ResultDrink.self, from: data)
-                print(resultDrink)
+                //print(resultDrink)
                 DispatchQueue.global().async {
                     let drink = resultDrink.drink[0]
-                    print(drink)
+                    //print(drink)
                     
                     completion(drink)
                 }

@@ -23,6 +23,7 @@ class CoreDataManager: NSObject {
             for ingredient in ingredients {
                 drink.addToIngredients(ingredient)
             }
+            //print(drink)
             try? context.save()
         }
     }
@@ -50,5 +51,41 @@ class CoreDataManager: NSObject {
         context.delete(drink)
         try? context.save()
     }
+    
+    public func saveIngredient(name: String, measure: String) -> Ingredient? {
+        var ingredientRet: Ingredient? = Ingredient()
+        if let ingredient = NSEntityDescription.insertNewObject(forEntityName: "Ingredient", into: self.context) as? Ingredient {
+            ingredient.name = name
+            ingredient.measure = measure
+            
+            ingredientRet = ingredient
+            try? context.save()
+        }
+        return ingredientRet
+    }
+    public func getAllIngredients() -> [Ingredient]? {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Ingredient")
+        do {
+            let ingredients = try context.fetch(request) as! [Ingredient]
+            return ingredients
+        }
+        catch {
+            fatalError("Failed to fetch: \(error)")
+        }
+    }
+//    public func getDrinkIngredients(from drink: DrinkLocal) -> [Ingredient]? {
+//        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Ingredient")
+//        do {
+//            let ingredients = try context.fetch(request) as! [Ingredient]
+//            for data in ingredients {
+//                if data.drink == drink {
+//                    return Array(drink.ingredients) as! [Ingredient]
+//                }
+//            }
+//        }
+//        catch {
+//            fatalError("Failed to fetch: \(error)")
+//        }
+//    }
 }
 
