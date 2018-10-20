@@ -13,6 +13,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var drinksCollectionView: UICollectionView!
     var drinks:[DrinkList] = []
     var categories:[Category] = []
+    var drink: Drink?
     
     var responseManager:ResponseManager? = ResponseManager()
     
@@ -26,17 +27,18 @@ class ViewController: UIViewController {
         
         // Register cells
         self.categoriesCollectionView.register(UINib.init(nibName: "CategoryCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "categoryCell")
-
         self.drinksCollectionView.register(UINib.init(nibName: "DrinkCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "drinkCell")
+        
+        registerForPreviewing(with: self, sourceView: view)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if let navigation = segue.destination as? UINavigationController,
-//            let newTripVc = navigation.topViewController as? NewTripViewController {
-//            newTripVc.delegate = self
-//        }
+
         if let newDrinkVC = segue.destination as? NewDrinkViewController {
                 newDrinkVC.categories = self.categories
+        }
+        if let detailDrinkVC = segue.destination as? DrinkViewController {
+            detailDrinkVC.drink = self.drink
         }
     }
     
@@ -80,7 +82,9 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
         else {
         // else return drinks
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "drinkCell", for: indexPath) as! DrinkCollectionViewCell
-            cell.configure(with: self.drinks[indexPath.row]) 
+            cell.configure(with: self.drinks[indexPath.row])
+            //cell.isUserInteractionEnabled = true
+            
             return cell
         }
     }
@@ -100,4 +104,39 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 10.0
     }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == drinksCollectionView {
+            let selectedDrink = self.drinks[indexPath.row]
+            let drinkID = selectedDrink.id!
+            responseManager?.getDrinkBy(id: drinkID) { drink in
+                self.drink = drink
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "detailDrink", sender: self)
+                }
+            }
+            
+        }
+    }
+}
+
+extension ViewController: UIViewControllerPreviewingDelegate {
+    func viewControllerForDrink(at indexPath: IndexPath) -> DrinkViewController {
+        let drinkVC = DrinkViewController()
+        drinkVC.drink = self.drink
+        return drinkVC
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard let indexPath = drinksCollectionView.indexPathForItem(at: location), let cellAttributes = drinksCollectionView.layoutAttributesForItem(at: indexPath) else { return nil }
+        
+        previewingContext.sourceRect = cellAttributes.frame
+        return viewControllerForDrink(at: indexPath)
+        
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        
+    }
+    
+    
 }

@@ -79,4 +79,6 @@ class DrinkCollectionViewCell: UICollectionViewCell {
         drinkCategoryLabel.text = model.category!
        
     }
+    
+    
 }
