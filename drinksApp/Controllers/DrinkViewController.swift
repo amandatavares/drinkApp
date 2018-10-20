@@ -22,8 +22,10 @@ class DrinkViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.drinkIngredients.text = ""
-        self.drinkMeasures.text = ""
+        if let iText = self.drinkIngredients, let mText = self.drinkMeasures {
+            iText.text! = ""
+            mText.text! = ""
+        }
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -52,7 +54,9 @@ class DrinkViewController: UIViewController {
                     if http.statusCode == 200 {
                         let downloadedImage = UIImage(data: data!)
                         DispatchQueue.main.async {
-                            self.drinkImageView.image = downloadedImage
+                            if let imageView = self.drinkImageView {
+                                imageView.image = downloadedImage
+                            }
                         }
                     }
                 }
@@ -60,9 +64,13 @@ class DrinkViewController: UIViewController {
             task.resume()
         }
         
-        self.drinkName.text = drink.name!
-        self.drinkCategory.text = drink.category
-        self.drinkDirections.text = drink.recipe
+        if let nameLabel = self.drinkName, let catLabel = self.drinkCategory, let dirLabel = self.drinkDirections {
+            nameLabel.text = drink.name!
+            catLabel.text = drink.category
+            dirLabel.text = drink.recipe
+        }
+       
+        
         
         // catch all ingredients and add to viewcontroller list
         var i = 0 // iterator
@@ -72,8 +80,10 @@ class DrinkViewController: UIViewController {
             i = i + 1
         }
         for ingredient in self.ingredients {
-            if ingredient != "" {
-                self.drinkIngredients.text?.append(contentsOf: "\(ingredient!) \n")
+            if (ingredient != "" && ingredient != " ") {
+                if let ingLabel = self.drinkIngredients {
+                    ingLabel.text?.append(contentsOf: "\(ingredient!) \n")
+                }
             }
         }
         
@@ -85,7 +95,9 @@ class DrinkViewController: UIViewController {
         }
         for measure in self.measures {
             if (measure != "" && measure != " ") {
-                self.drinkMeasures.text?.append(contentsOf: "\(measure!) \n")
+                if let mesLabel = self.drinkMeasures {
+                    mesLabel.text?.append(contentsOf: "\(measure!) \n")
+                }
             }
         }
 
