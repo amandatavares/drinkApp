@@ -66,9 +66,9 @@ class NewDrinkViewController: UIViewController {
         if let name = nameTextField.text,
             let directions = directionsTextField.text,
             let category = category,
-            let thumb = imageSavedUrl {
+            let thumb = imageSavedUrl{
         
-                manager.saveDrink(name: name, ingredients: self.ingredients!, direction: directions, thumb: thumb, category: category)
+            manager.saveDrink(name: name, ingredients: self.ingredients!, direction: directions, thumb: thumb, category: category, isFavorite: false)
             
                 self.dismiss(animated: true, completion: nil)
         }

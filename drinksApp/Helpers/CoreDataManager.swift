@@ -13,12 +13,13 @@ import CoreData
 class CoreDataManager: NSObject {
     var context: NSManagedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    public func saveDrink(name: String, ingredients: [Ingredient], direction: String, thumb: String, category: String) {
+    public func saveDrink(name: String, ingredients: [Ingredient], direction: String, thumb: String, category: String, isFavorite: Bool) {
         if let drink = NSEntityDescription.insertNewObject(forEntityName: "DrinkLocal", into: self.context) as? DrinkLocal {
             drink.name = name
             drink.direction = direction
             drink.thumb = thumb
             drink.category = category
+            drink.isFavorite = isFavorite
             //drink.ingredients = ingredients
             for ingredient in ingredients {
                 drink.addToIngredients(ingredient)
@@ -38,7 +39,20 @@ class CoreDataManager: NSObject {
             fatalError("Failed to fetch: \(error)")
         }
     }
-    
+    public func getUserDrink(by name: String) -> DrinkLocal {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "DrinkLocal")
+        request.fetchLimit = 1
+        request.predicate = NSPredicate(format: "name = %@", name)
+
+        do {
+            let drinks = try context.fetch(request) as! [DrinkLocal]
+            let drink = drinks.first
+            return drink!
+        }
+        catch {
+            fatalError("Failed to fetch: \(error)")
+        }
+    }
     public func editUserDrink(name: String, direction: String, thumb: String, category: String, drink: DrinkLocal){
         
         drink.setValuesForKeys(["name" : name, "direction" : direction, "thumb": thumb])
@@ -73,19 +87,6 @@ class CoreDataManager: NSObject {
             fatalError("Failed to fetch: \(error)")
         }
     }
-//    public func getDrinkIngredients(from drink: DrinkLocal) -> [Ingredient]? {
-//        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Ingredient")
-//        do {
-//            let ingredients = try context.fetch(request) as! [Ingredient]
-//            for data in ingredients {
-//                if data.drink == drink {
-//                    return Array(drink.ingredients) as! [Ingredient]
-//                }
-//            }
-//        }
-//        catch {
-//            fatalError("Failed to fetch: \(error)")
-//        }
-//    }
+    
 }
 

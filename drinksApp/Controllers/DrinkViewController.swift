@@ -11,6 +11,7 @@ import UIKit
 class DrinkViewController: UIViewController {
     
     var drink: Drink?
+    let coreData: CoreDataManager = CoreDataManager()
     @IBOutlet weak var drinkImageView: UIImageView!
     @IBOutlet weak var drinkName: UILabel!
     @IBOutlet weak var drinkCategory: UILabel!
@@ -18,9 +19,11 @@ class DrinkViewController: UIViewController {
     @IBOutlet weak var drinkMeasures: UILabel!
     @IBOutlet weak var drinkDirections: UILabel!
     @IBOutlet weak var favoriteButton: UIButton!
+    
     var ingredients: [String?] = []
     var measures: [String?] = []
     var popImage: UIImage = UIImage()
+    var isFavorite: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,6 +74,7 @@ class DrinkViewController: UIViewController {
             nameLabel.text = drink.name!
             catLabel.text = drink.category
             dirLabel.text = drink.recipe
+            
         }
         
         // catch all ingredients and add to viewcontroller list
@@ -105,7 +109,31 @@ class DrinkViewController: UIViewController {
     }
     
     @IBAction func favoriteDrink(_ sender: UIButton) {
-        favoriteButton.setImage(UIImage(named: "heart-filled"), for: .normal)
+        
+        if !isFavorite {
+            favoriteButton.setImage(UIImage(named: "heart-filled"), for: .normal)
+            self.isFavorite = true
+            
+            var ingredientList: [Ingredient] = []
+            
+            for (index, ingredient) in self.ingredients.enumerated() {
+                if (ingredient != "" && ingredient != " " && self.measures[index] != "" && self.measures[index] != " ") {
+                    let newIngredient = coreData.saveIngredient(name: ingredient!, measure: self.measures[index]!)
+                    ingredientList.append(newIngredient!)
+                }
+            }
+            
+            if let name = self.drink?.name, let directions = self.drink?.recipe, let category = self.drink?.category, let thumb = self.drink?.thumb {
+                coreData.saveDrink(name: name, ingredients: ingredientList, direction: directions, thumb: thumb, category: category, isFavorite: true)
+            }
+        }
+        else {
+            favoriteButton.setImage(UIImage(named: "heart-empty"), for: .normal)
+            self.isFavorite = false
+            
+            let unFavorite = coreData.getUserDrink(by: (self.drink?.name)!)
+            coreData.deleteDrink(drink: unFavorite)
+        }
     }
     
     /*

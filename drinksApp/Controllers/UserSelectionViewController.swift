@@ -15,6 +15,7 @@ class UserSelectionViewController: UIViewController {
     @IBOutlet weak var userFavoritesCollectionView: UICollectionView!
     var userDrinks: [DrinkLocal] = []
     var userFavorites: [DrinkLocal] = []
+    var allDrinks: [DrinkLocal] = []
     
     var coreManager: CoreDataManager = CoreDataManager()
     
@@ -32,8 +33,17 @@ class UserSelectionViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Call Core Data
-        self.userDrinks = coreManager.getUserDrinks()!
+        self.allDrinks = coreManager.getUserDrinks()!
+        for drink in self.allDrinks {
+            if drink.isFavorite == true {
+                self.userFavorites.append(drink)
+            }
+            else {
+                self.userDrinks.append(drink)
+            }
+        }
         self.userDrinksCollectionView.reloadData()
+        self.userFavoritesCollectionView.reloadData()
     }
 }
 
@@ -56,7 +66,7 @@ extension UserSelectionViewController: UICollectionViewDataSource, UICollectionV
         }
         else {
             // else return favorite drinks
-            //cell.configure(with: self.userFavorites[indexPath.row])
+            cell.configure(with: self.userFavorites[indexPath.row])
             return cell
         }
     }

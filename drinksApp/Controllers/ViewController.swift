@@ -154,10 +154,6 @@ extension ViewController: UIViewControllerPreviewingDelegate {
     }
     
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
-//        if let viewController = viewControllerToCommit as? DrinkViewController {
-//            //viewController.back.isHidden = false
-//
-//        }
         show(viewControllerToCommit, sender: self)
     }
     
