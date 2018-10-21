@@ -17,8 +17,10 @@ class DrinkViewController: UIViewController {
     @IBOutlet weak var drinkIngredients: UILabel!
     @IBOutlet weak var drinkMeasures: UILabel!
     @IBOutlet weak var drinkDirections: UILabel!
+    @IBOutlet weak var favoriteButton: UIButton!
     var ingredients: [String?] = []
     var measures: [String?] = []
+    var popImage: UIImage = UIImage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +31,8 @@ class DrinkViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
-       
+        self.drinkImageView.image = popImage
+        
         guard let drink = self.drink else {
             return
         }
@@ -69,8 +72,6 @@ class DrinkViewController: UIViewController {
             catLabel.text = drink.category
             dirLabel.text = drink.recipe
         }
-       
-        
         
         // catch all ingredients and add to viewcontroller list
         var i = 0 // iterator
@@ -103,7 +104,10 @@ class DrinkViewController: UIViewController {
 
     }
     
-
+    @IBAction func favoriteDrink(_ sender: UIButton) {
+        favoriteButton.setImage(UIImage(named: "heart-filled"), for: .normal)
+    }
+    
     /*
     // MARK: - Navigation
 

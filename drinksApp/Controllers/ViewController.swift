@@ -120,22 +120,45 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
 }
 
 extension ViewController: UIViewControllerPreviewingDelegate {
-    func viewControllerForDrink(at indexPath: IndexPath) -> DrinkViewController {
-        let drinkVC = DrinkViewController()
-        drinkVC.drink = self.drink
-        return drinkVC
-    }
-    
+//    func viewControllerForDrink(at indexPath: IndexPath) -> DrinkViewController {
+//        let drinkVC = DrinkViewController()
+//        drinkVC.drink = self.drink
+//        return drinkVC
+//    }
+//
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
-        guard let indexPath = drinksCollectionView.indexPathForItem(at: location), let cellAttributes = drinksCollectionView.layoutAttributesForItem(at: indexPath) else { return nil }
+        guard let indexPath = drinksCollectionView.indexPathForItem(at: drinksCollectionView.convert(location, from: view)), let cell = drinksCollectionView.cellForItem(at: indexPath) as? DrinkCollectionViewCell else {
+            return nil
+        }
         
-        previewingContext.sourceRect = cellAttributes.frame
-        return viewControllerForDrink(at: indexPath)
+        let popVC = storyboard?.instantiateViewController(withIdentifier: "drinkVc") as! DrinkViewController
+            
+            //let selectedDrink = cell.drink
+            //popVC.drink = selectedDrink
+        let selectedDrink = self.drinks[indexPath.row]
+        let drinkID = selectedDrink.id!
+        responseManager?.getDrinkBy(id: drinkID) { drink in
+            self.drink = drink
+            DispatchQueue.main.async {
+//                    self.performSegue(withIdentifier: "detailDrink", sender: self)
+                popVC.drink = self.drink
+            }
+        }
+           
+            //Set your height
+        popVC.preferredContentSize = CGSize(width: 0.0, height: 300)
+        previewingContext.sourceRect = cell.drinkImageView.frame
         
+        return popVC
+
     }
     
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
-        
+//        if let viewController = viewControllerToCommit as? DrinkViewController {
+//            //viewController.back.isHidden = false
+//
+//        }
+        show(viewControllerToCommit, sender: self)
     }
     
     

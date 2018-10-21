@@ -103,7 +103,7 @@
         <!--Drink View Controller-->
         <scene sceneID="HeO-b9-VBo">
             <objects>
-                <viewController id="lub-tl-Avf" customClass="DrinkViewController" customModule="drinksApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="drinkVc" id="lub-tl-Avf" customClass="DrinkViewController" customModule="drinksApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IXQ-kp-Jcv">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -141,10 +141,19 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mSu-Jn-bCp">
+                                        <rect key="frame" x="324" y="26" width="25" height="25"/>
+                                        <state key="normal" image="heart-empty"/>
+                                        <connections>
+                                            <action selector="favoriteDrink:" destination="lub-tl-Avf" eventType="touchUpInside" id="rZ3-hc-Ez8"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.24309828367875652" green="0.24309828367875652" blue="0.24309828367875652" alpha="0.650940801056338" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="mSu-Jn-bCp" secondAttribute="trailing" constant="26" id="9gW-Cl-G0g"/>
                                     <constraint firstAttribute="height" constant="250" id="HTz-an-vCV"/>
+                                    <constraint firstItem="mSu-Jn-bCp" firstAttribute="top" secondItem="WKG-90-24X" secondAttribute="top" constant="26" id="U6e-Yu-vW9"/>
                                     <constraint firstAttribute="trailing" secondItem="Sau-up-hiq" secondAttribute="trailing" constant="15" id="UEX-0y-ScR"/>
                                     <constraint firstItem="Sau-up-hiq" firstAttribute="leading" secondItem="WKG-90-24X" secondAttribute="leading" constant="15" id="gbf-wS-qEe"/>
                                 </constraints>
@@ -214,6 +223,7 @@
                         <outlet property="drinkIngredients" destination="hdU-BM-J4j" id="uyl-C2-6dv"/>
                         <outlet property="drinkMeasures" destination="dEY-pg-vLw" id="umj-V1-IOa"/>
                         <outlet property="drinkName" destination="AMr-i3-5dl" id="Abk-A8-fta"/>
+                        <outlet property="favoriteButton" destination="mSu-Jn-bCp" id="eLz-iY-Nd3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pIZ-vL-MLh" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -499,4 +509,7 @@
             <point key="canvasLocation" x="5295" y="-839"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="heart-empty" width="25.600000381469727" height="25.600000381469727"/>
+    </resources>
 </document>
