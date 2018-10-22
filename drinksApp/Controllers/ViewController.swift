@@ -37,7 +37,6 @@ class ViewController: UIViewController {
         else {
             print("3D Touch Not Available")
         }
-       
         //registerForPreviewing(with: self, sourceView: view)
     }
     

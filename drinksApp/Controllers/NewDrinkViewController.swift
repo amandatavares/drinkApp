@@ -22,6 +22,9 @@ class NewDrinkViewController: UIViewController {
     @IBOutlet weak var categoryPicker: UIPickerView!
     @IBOutlet weak var ingredientsTableView: UITableView!
     
+    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
+    
     var drink: DrinkLocal?
     var manager: CoreDataManager = CoreDataManager()
     var helper: GlobalFunctions = GlobalFunctions()
@@ -29,6 +32,7 @@ class NewDrinkViewController: UIViewController {
     var category: String?
     var categories: [Category]?
     var ingredients: [Ingredient]? = []
+    let constants: Constants = Constants()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +47,7 @@ class NewDrinkViewController: UIViewController {
         measureTextField.delegate = self
         directionsTextField.delegate = self
         
+        saveButton.layer.cornerRadius = constants.cornerRadius
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(keyboardWillHide), name:UIResponder.keyboardWillHideNotification, object: nil)
