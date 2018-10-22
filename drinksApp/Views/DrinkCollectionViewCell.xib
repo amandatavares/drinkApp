@@ -12,42 +12,41 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="DrinkCollectionViewCell" customModule="drinksApp" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="150" height="170"/>
+            <rect key="frame" x="0.0" y="0.0" width="166" height="249"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="150" height="170"/>
+                <rect key="frame" x="0.0" y="0.0" width="166" height="249"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rpY-0W-ere">
-                        <rect key="frame" x="0.0" y="0.0" width="150" height="170"/>
+                        <rect key="frame" x="0.0" y="0.0" width="166" height="249"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gPX-y0-cUe">
-                                <rect key="frame" x="8" y="118.5" width="134" height="20.5"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VTN-sE-748">
-                                <rect key="frame" x="8" y="144" width="134" height="18"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Drink category" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VTN-sE-748">
+                                <rect key="frame" x="8" y="214" width="150" height="25"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4jm-py-g1k">
-                                <rect key="frame" x="0.0" y="0.0" width="150" height="100"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="UzE-Ps-SqN"/>
-                                </constraints>
+                                <rect key="frame" x="0.0" y="0.0" width="166" height="149.5"/>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Drink name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gPX-y0-cUe">
+                                <rect key="frame" x="8" y="159.5" width="150" height="49.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="gPX-y0-cUe" firstAttribute="top" relation="greaterThanOrEqual" secondItem="4jm-py-g1k" secondAttribute="bottom" constant="8" id="07A-J2-AVS"/>
+                            <constraint firstItem="4jm-py-g1k" firstAttribute="height" secondItem="rpY-0W-ere" secondAttribute="height" multiplier="0.6" id="22z-og-Fc9"/>
                             <constraint firstItem="VTN-sE-748" firstAttribute="leading" secondItem="rpY-0W-ere" secondAttribute="leading" constant="8" id="3BX-M1-tJQ"/>
-                            <constraint firstAttribute="bottom" secondItem="VTN-sE-748" secondAttribute="bottom" constant="8" id="MUh-dL-zdE"/>
+                            <constraint firstItem="VTN-sE-748" firstAttribute="top" secondItem="gPX-y0-cUe" secondAttribute="bottom" constant="5" id="5Xw-Hi-lzM"/>
+                            <constraint firstItem="gPX-y0-cUe" firstAttribute="top" secondItem="4jm-py-g1k" secondAttribute="bottom" constant="10" id="ByT-ct-hSx"/>
+                            <constraint firstAttribute="bottom" secondItem="VTN-sE-748" secondAttribute="bottom" constant="10" id="MUh-dL-zdE"/>
                             <constraint firstAttribute="trailing" secondItem="4jm-py-g1k" secondAttribute="trailing" id="O6d-rR-vYV"/>
-                            <constraint firstItem="VTN-sE-748" firstAttribute="top" secondItem="gPX-y0-cUe" secondAttribute="bottom" constant="5" id="RVq-iY-DUV"/>
                             <constraint firstItem="4jm-py-g1k" firstAttribute="top" secondItem="rpY-0W-ere" secondAttribute="top" id="Tpp-yM-ItG"/>
+                            <constraint firstItem="gPX-y0-cUe" firstAttribute="height" secondItem="rpY-0W-ere" secondAttribute="height" multiplier="0.2" id="b3C-ru-mcU"/>
                             <constraint firstItem="gPX-y0-cUe" firstAttribute="leading" secondItem="rpY-0W-ere" secondAttribute="leading" constant="8" id="oBW-oU-r1C"/>
                             <constraint firstAttribute="trailing" secondItem="VTN-sE-748" secondAttribute="trailing" constant="8" id="wNh-yV-Oiy"/>
                             <constraint firstAttribute="trailing" secondItem="gPX-y0-cUe" secondAttribute="trailing" constant="8" id="xGu-xF-m35"/>

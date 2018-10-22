@@ -22,7 +22,6 @@ class DrinkViewController: UIViewController {
     
     var ingredients: [String?] = []
     var measures: [String?] = []
-    var popImage: UIImage = UIImage()
     var isFavorite: Bool = false
     
     override func viewDidLoad() {
@@ -31,10 +30,9 @@ class DrinkViewController: UIViewController {
             iText.text! = ""
             mText.text! = ""
         }
-        // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
-        self.drinkImageView.image = popImage
+        //drinkImageView.image = self.popImage!
         
         guard let drink = self.drink else {
             return
@@ -45,36 +43,8 @@ class DrinkViewController: UIViewController {
         let measuresList: [String?] = [self.drink?.measure1, self.drink?.measure2, self.drink?.measure3, self.drink?.measure4, self.drink?.measure5, self.drink?.measure6, self.drink?.measure7, self.drink?.measure8, self.drink?.measure9, self.drink?.measure10, self.drink?.measure11, self.drink?.measure12, self.drink?.measure13, self.drink?.measure14, self.drink?.measure15]
         var measureName: String? = " "
         
-        let config = URLSessionConfiguration.default
-        let session = URLSession(configuration: config)
-        if let url = URL(string: drink.thumb ?? "https://via.placeholder.com/150x100"){
-            
-            let task = session.dataTask(with: url as URL, completionHandler: {data, response, error in
-                
-                if let err = error {
-                    print("Error: \(err)")
-                    return
-                }
-                
-                if let http = response as? HTTPURLResponse {
-                    if http.statusCode == 200 {
-                        let downloadedImage = UIImage(data: data!)
-                        DispatchQueue.main.async {
-                            if let imageView = self.drinkImageView {
-                                imageView.image = downloadedImage
-                            }
-                        }
-                    }
-                }
-            })
-            task.resume()
-        }
-        
-        if let nameLabel = self.drinkName, let catLabel = self.drinkCategory, let dirLabel = self.drinkDirections {
-            nameLabel.text = drink.name!
-            catLabel.text = drink.category
+        if let dirLabel = self.drinkDirections {
             dirLabel.text = drink.recipe
-            
         }
         
         // catch all ingredients and add to viewcontroller list
@@ -135,15 +105,5 @@ class DrinkViewController: UIViewController {
             coreData.deleteDrink(drink: unFavorite)
         }
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

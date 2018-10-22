@@ -80,6 +80,16 @@ class NewDrinkViewController: UIViewController {
         }
     }
     
+    @IBAction func cancelNewDrink(_ sender: Any) {
+        let alertCancel = UIAlertController(title: "Cancel drink", message: "Are you sure you want to cancel the drink creation?", preferredStyle: .alert)
+        alertCancel.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+        alertCancel.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { action in
+            self.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alertCancel, animated: true, completion: nil)
+        
+    }
+    
     @IBAction func addIngredient(_ sender: Any) {
         var ingredient: Ingredient? = Ingredient()
         

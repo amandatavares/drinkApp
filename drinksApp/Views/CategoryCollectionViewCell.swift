@@ -13,13 +13,17 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var categoryNameLabel: UILabel!
     let responseData: ResponseManager = ResponseManager()
     var category: [Category]?
+    let constants: Constants = Constants()
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        self.layer.addShadow()
+        self.layer.roundCorners(radius: constants.cornerRadius)
+        self.clipsToBounds = true
     }
     
-    public func configure(with model: Category) {
+    public func configure(with model: Category, bgColor: UIColor) {
         self.categoryNameLabel.text = model.name!
+        self.categoryView.backgroundColor = bgColor
     }
 }

@@ -15,6 +15,7 @@ class DrinkCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var drinkCategoryLabel: UILabel!
     let responseData: ResponseManager = ResponseManager()
     var coreData: CoreDataManager = CoreDataManager()
+    let constants: Constants = Constants()
     
     var id: String?
     var category: String?
@@ -24,6 +25,8 @@ class DrinkCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.layer.addShadow()
+        self.layer.roundCorners(radius: constants.cornerRadius)
+        self.clipsToBounds = true
     }
     
     public func configure(with model: DrinkList) {
