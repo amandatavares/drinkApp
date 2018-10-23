@@ -10,7 +10,7 @@ import UIKit
 
 class DrinkViewController: UIViewController {
     
-    var drink: Drink?
+    //var drink: Drink?
     let coreData: CoreDataManager = CoreDataManager()
     @IBOutlet weak var drinkImageView: UIImageView!
     @IBOutlet weak var drinkName: UILabel!
@@ -23,6 +23,8 @@ class DrinkViewController: UIViewController {
     var ingredients: [String?] = []
     var measures: [String?] = []
     var isFavorite: Bool = false
+    var drinkImage: UIImage?
+    var drink: Drink?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,15 +39,24 @@ class DrinkViewController: UIViewController {
         guard let drink = self.drink else {
             return
         }
+
+        if let nameLabel = self.drinkName, let catLabel = self.drinkCategory, let dirLabel = self.drinkDirections, let imageView = drinkImageView {
+            nameLabel.text = drink.name!
+            catLabel.text = drink.category!
+            dirLabel.text = drink.recipe!
+            imageView.image = self.drinkImage!
+        }
+//        if self.drinkName.text == nil || self.drinkCategory.text == nil || self.drinkDirections.text == nil {
+//            self.drinkCategory.text = drink.category!
+//            self.drinkName.text = drink.name!
+//            self.drinkDirections.text = drink.recipe!
+//        }
+        
         let ingredientsList: [String?] = [self.drink?.ingredient1, self.drink?.ingredient2, self.drink?.ingredient3, self.drink?.ingredient4, self.drink?.ingredient5, self.drink?.ingredient6, self.drink?.ingredient7, self.drink?.ingredient8, self.drink?.ingredient9, self.drink?.ingredient10, self.drink?.ingredient11, self.drink?.ingredient12, self.drink?.ingredient13, self.drink?.ingredient14, self.drink?.ingredient15]
         var ingredientName: String? = " "
         
         let measuresList: [String?] = [self.drink?.measure1, self.drink?.measure2, self.drink?.measure3, self.drink?.measure4, self.drink?.measure5, self.drink?.measure6, self.drink?.measure7, self.drink?.measure8, self.drink?.measure9, self.drink?.measure10, self.drink?.measure11, self.drink?.measure12, self.drink?.measure13, self.drink?.measure14, self.drink?.measure15]
         var measureName: String? = " "
-        
-        if let dirLabel = self.drinkDirections {
-            dirLabel.text = drink.recipe
-        }
         
         // catch all ingredients and add to viewcontroller list
         var i = 0 // iterator
