@@ -73,7 +73,7 @@ class NewDrinkViewController: UIViewController {
             let category = category,
             let thumb = imageSavedUrl{
         
-            manager.saveDrink(name: name, ingredients: self.ingredients!, direction: directions, thumb: thumb, category: category, isFavorite: false)
+            manager.saveDrink(id: nil, name: name, ingredients: self.ingredients!, direction: directions, thumb: thumb, category: category, isFavorite: false)
             
                 self.dismiss(animated: true, completion: nil)
         }

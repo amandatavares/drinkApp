@@ -13,8 +13,9 @@ import CoreData
 class CoreDataManager: NSObject {
     var context: NSManagedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    public func saveDrink(name: String, ingredients: [Ingredient], direction: String, thumb: String, category: String, isFavorite: Bool) {
+    public func saveDrink(id: String?, name: String, ingredients: [Ingredient], direction: String, thumb: String, category: String, isFavorite: Bool) {
         if let drink = NSEntityDescription.insertNewObject(forEntityName: "DrinkLocal", into: self.context) as? DrinkLocal {
+            drink.id = id
             drink.name = name
             drink.direction = direction
             drink.thumb = thumb
@@ -52,6 +53,21 @@ class CoreDataManager: NSObject {
         catch {
             fatalError("Failed to fetch: \(error)")
         }
+    }
+    func thisDrinkExists(id: String) -> Bool {
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "DrinkLocal")
+        fetchRequest.predicate = NSPredicate(format: "id = %@", id)
+        
+        var results: [NSManagedObject] = []
+        
+        do {
+            results = try context.fetch(fetchRequest)
+        }
+        catch {
+            print("error executing fetch request: \(error)")
+        }
+        
+        return results.count > 0
     }
     public func editUserDrink(name: String, direction: String, thumb: String, category: String, drink: DrinkLocal){
         

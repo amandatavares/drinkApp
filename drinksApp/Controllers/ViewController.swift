@@ -117,7 +117,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
             + (flowLayout.minimumInteritemSpacing * CGFloat(numberOfItemsPerRow - 1))
         let size = Int((collectionView.bounds.width - totalSpace) / CGFloat(numberOfItemsPerRow))
         //return CGSize(width: itemWidth, height: itemWidth)
-        print("---------------\(size) + \(size+size/2)")
+        //print("---------------\(size) + \(size+size/2)")
         return CGSize(width: size, height: size+(size/2))
     }
     

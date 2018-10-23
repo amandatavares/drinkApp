@@ -22,7 +22,7 @@ class DrinkViewController: UIViewController {
     
     var ingredients: [String?] = []
     var measures: [String?] = []
-    var isFavorite: Bool = false
+    var isFavorite: Bool? = false
     var drinkImage: UIImage?
     var drink: Drink?
     
@@ -34,7 +34,6 @@ class DrinkViewController: UIViewController {
         }
     }
     override func viewWillAppear(_ animated: Bool) {
-        //drinkImageView.image = self.popImage!
         
         guard let drink = self.drink else {
             return
@@ -46,11 +45,6 @@ class DrinkViewController: UIViewController {
             dirLabel.text = drink.recipe!
             imageView.image = self.drinkImage!
         }
-//        if self.drinkName.text == nil || self.drinkCategory.text == nil || self.drinkDirections.text == nil {
-//            self.drinkCategory.text = drink.category!
-//            self.drinkName.text = drink.name!
-//            self.drinkDirections.text = drink.recipe!
-//        }
         
         let ingredientsList: [String?] = [self.drink?.ingredient1, self.drink?.ingredient2, self.drink?.ingredient3, self.drink?.ingredient4, self.drink?.ingredient5, self.drink?.ingredient6, self.drink?.ingredient7, self.drink?.ingredient8, self.drink?.ingredient9, self.drink?.ingredient10, self.drink?.ingredient11, self.drink?.ingredient12, self.drink?.ingredient13, self.drink?.ingredient14, self.drink?.ingredient15]
         var ingredientName: String? = " "
@@ -86,12 +80,29 @@ class DrinkViewController: UIViewController {
                 }
             }
         }
-
+        
+        let drinkFavorite = isDrinkFavorite()
+        print(drinkFavorite!)
     }
-    
+    func isDrinkFavorite() -> Bool? {
+        guard let drink = self.drink else {
+            return nil
+        }
+        if self.coreData.thisDrinkExists(id: drink.id!) {
+            let drinkLocal: DrinkLocal = coreData.getUserDrink(by: drink.name!)
+            if drinkLocal.isFavorite {
+                favoriteButton.setImage(UIImage(named: "heart-filled"), for: .normal)
+                return true
+            } else {
+                favoriteButton.setImage(UIImage(named: "heart-empty"), for: .normal)
+                return false
+            }
+        }
+        return false
+    }
     @IBAction func favoriteDrink(_ sender: UIButton) {
         
-        if !isFavorite {
+        if (isDrinkFavorite() == false) {
             favoriteButton.setImage(UIImage(named: "heart-filled"), for: .normal)
             self.isFavorite = true
             
@@ -104,8 +115,8 @@ class DrinkViewController: UIViewController {
                 }
             }
             
-            if let name = self.drink?.name, let directions = self.drink?.recipe, let category = self.drink?.category, let thumb = self.drink?.thumb {
-                coreData.saveDrink(name: name, ingredients: ingredientList, direction: directions, thumb: thumb, category: category, isFavorite: true)
+            if let id = self.drink?.id, let name = self.drink?.name, let directions = self.drink?.recipe, let category = self.drink?.category, let thumb = self.drink?.thumb {
+                coreData.saveDrink(id: id, name: name, ingredients: ingredientList, direction: directions, thumb: thumb, category: category, isFavorite: true)
             }
         }
         else {
