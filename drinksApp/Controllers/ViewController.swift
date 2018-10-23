@@ -95,11 +95,21 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
         // else return drinks
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "drinkCell", for: indexPath) as! DrinkCollectionViewCell
             cell.configure(with: self.drinks[indexPath.row])
-            
+
             return cell
         }
     }
-    
+    // Animation of UICollectionViewCell
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if collectionView == drinksCollectionView {
+            cell.alpha = 0
+            cell.layer.transform = CATransform3DMakeScale(0.5, 0.5, 0.5)
+            UIView.animate(withDuration: 0.4, animations: { () -> Void in
+                cell.alpha = 1
+                cell.layer.transform = CATransform3DScale(CATransform3DIdentity, 1, 1, 1)
+            })
+        }
+    }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == self.categoriesCollectionView {
 
