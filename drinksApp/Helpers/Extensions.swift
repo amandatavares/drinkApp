@@ -1,5 +1,5 @@
 //
-//  Layout.swift
+//  Extensions.swift
 //  drinksApp
 //
 //  Created by Amanda Tavares on 17/10/18.

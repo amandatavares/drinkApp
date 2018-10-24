@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DrinkCollectionViewCell: UICollectionViewCell {
+class DrinkCollectionViewCell: UICollectionViewCell, ImageDownloaderDelegate {
 
     @IBOutlet weak var drinkImageView: UIImageView!
     @IBOutlet weak var drinkNameLabel: UILabel!
@@ -16,7 +16,7 @@ class DrinkCollectionViewCell: UICollectionViewCell {
     let responseData: ResponseManager = ResponseManager()
     var coreData: CoreDataManager = CoreDataManager()
     let constants: Constants = Constants()
-    
+    var imageDownloader: ImageDownloader?
     var id: String?
     var category: String?
     var drink: Drink?
@@ -27,13 +27,20 @@ class DrinkCollectionViewCell: UICollectionViewCell {
         self.layer.addShadow()
         self.layer.roundCorners(radius: constants.cornerRadius)
         self.clipsToBounds = true
+        
     }
     
     public func configure(with model: DrinkList) {
     
 
         if let url = URL(string: model.thumb ?? "https://via.placeholder.com/150x100"){
-            self.drinkImageView.downloadedFrom(url: url)
+            self.imageDownloader = ImageDownloader(imageURL: url)
+            self.imageDownloader?.delegate = self
+            self.imageDownloader?.downloadImage()
+            if imageDownloader?.delegate == nil {
+                print("----ueeeee-----")
+            }
+            
         }
         
         drinkNameLabel.text = model.name!
@@ -46,6 +53,22 @@ class DrinkCollectionViewCell: UICollectionViewCell {
         }
         
         //drinkCategoryLabel.text = model.category ?? "Sem categoria"
+    }
+    func didFinishDownloading(_ sender: ImageDownloader) {
+        drinkImageView.image = imageDownloader?.image
+        
+        // Animate the appearance of this ViewController's
+        // user interface.
+//        UIView.animate(withDuration: 2.0, delay: 0.5, options: UIViewAnimationOptions.curveEaseIn, animations:  {
+//            self.loadingLabel.alpha = 0.0
+//            self.imageView.alpha = 1.0
+//        }) { (completed:Bool) in
+//            if (completed) {
+//                UIView.animate(withDuration: 2.0) {
+//                    self.loginView.alpha = 1.0
+//                }
+//            }
+//        }
     }
     
     public func configure(with model: DrinkLocal) {

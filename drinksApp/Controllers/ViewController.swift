@@ -9,13 +9,21 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
     @IBOutlet weak var categoriesCollectionView: UICollectionView!
     @IBOutlet weak var drinksCollectionView: UICollectionView!
     @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var drinksLabel: UILabel!
+    @IBOutlet weak var seeAllBtn: UIButton!
+    
     var drinks:[DrinkList] = []
+    var filteredDrinks: [DrinkList] = []
     var categories:[Category] = []
+    
     var drink: Drink?
     var drinkImage: UIImage = UIImage()
+    var searchActive : Bool = false
+    let searchController = UISearchController(searchResultsController: nil)
 
     var responseManager:ResponseManager? = ResponseManager()
     let constants: Constants = Constants()
@@ -38,7 +46,18 @@ class ViewController: UIViewController {
         else {
             print("3D Touch Not Available")
         }
+        searchBar.backgroundImage = UIImage()
+        searchBar.layer.borderWidth = 0
+        if let searchTextField = searchBar.value(forKey: "searchField") as? UITextField {
+            searchTextField.layer.addShadow()
+            searchTextField.placeholder = "What do you want to drink today?"
+        }
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+    
+        self.seeAllBtn.alpha = 0
         //registerForPreviewing(with: self, sourceView: view)
+        //self.filteredDrinks = self.drinks
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -58,6 +77,7 @@ class ViewController: UIViewController {
         // Call API data
         responseManager!.getAllDrinks(){ drinks in
             self.drinks = drinks
+            self.filteredDrinks = self.drinks
             DispatchQueue.main.async {
                 self.drinksCollectionView.reloadData()
             }
@@ -69,6 +89,20 @@ class ViewController: UIViewController {
                 self.categoriesCollectionView.reloadData()
             }
         }
+    }
+    
+    @IBAction func seeAllDrinks(_ sender: Any) {
+        self.drinksLabel.text = "All"
+        self.seeAllBtn.alpha = 0
+        self.filteredDrinks = self.drinks
+        self.drinksCollectionView.reloadData()
+    }
+    
+}
+
+extension ViewController: UISearchControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        
     }
 }
 
@@ -94,7 +128,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
         else {
         // else return drinks
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "drinkCell", for: indexPath) as! DrinkCollectionViewCell
-            cell.configure(with: self.drinks[indexPath.row])
+            cell.configure(with: self.filteredDrinks[indexPath.row])
 
             return cell
         }
@@ -126,8 +160,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
             + flowLayout.sectionInset.right
             + (flowLayout.minimumInteritemSpacing * CGFloat(numberOfItemsPerRow - 1))
         let size = Int((collectionView.bounds.width - totalSpace) / CGFloat(numberOfItemsPerRow))
-        //return CGSize(width: itemWidth, height: itemWidth)
-        //print("---------------\(size) + \(size+size/2)")
+       
         return CGSize(width: size, height: size+(size/2))
     }
     
@@ -140,7 +173,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
             if let cell = drinksCollectionView.cellForItem(at: indexPath) as? DrinkCollectionViewCell {
                 self.drinkImage = cell.drinkImageView.image!
             }
-            let selectedDrink = self.drinks[indexPath.row]
+            let selectedDrink = self.filteredDrinks[indexPath.row]
             let drinkID = selectedDrink.id!
             responseManager?.getDrinkBy(id: drinkID) { drink in
                 self.drink = drink
@@ -149,6 +182,28 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
                     self.performSegue(withIdentifier: "detailDrink", sender: self)
                 }
             }
+        }
+        else {
+            //guard let cell = categoriesCollectionView.cellForItem(at: indexPath) as? CategoryCollectionViewCell else { return }
+            let categories = self.categories
+            responseManager?.getDrinks(from: categories[indexPath.row], completion: { (ids) in
+                self.filteredDrinks = self.drinks.filter({ (drinkList) -> Bool in
+                    ids.contains(where: { (id) -> Bool in
+                        if drinkList.id == id {
+                            return true
+                        } else {
+                            return false
+                        }
+                    })
+                })
+                print(self.filteredDrinks.count)
+                DispatchQueue.main.async {
+                    self.drinksLabel.text = "Category: \(categories[indexPath.row].name!)"
+                    self.seeAllBtn.alpha = 1
+                    self.drinksCollectionView.reloadData()
+                }
+            })
+
         }
     }
 }
@@ -164,7 +219,7 @@ extension ViewController: UIViewControllerPreviewingDelegate {
         let popVC = storyboard?.instantiateViewController(withIdentifier: "drinkVc") as! DrinkViewController
         //let peekVC = storyboard?.instantiateViewController(withIdentifier: "peekVC") as! PeekViewController
         
-        let selectedDrink = self.drinks[indexPath.row]
+        let selectedDrink = self.filteredDrinks[indexPath.row]
         let drinkID = selectedDrink.id!
         responseManager?.getDrinkBy(id: drinkID) { drink in
             self.drink = drink
