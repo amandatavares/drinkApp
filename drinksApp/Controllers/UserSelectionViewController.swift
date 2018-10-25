@@ -13,6 +13,7 @@ class UserSelectionViewController: UIViewController {
 
     @IBOutlet weak var userDrinksCollectionView: UICollectionView!
     @IBOutlet weak var userFavoritesCollectionView: UICollectionView!
+    @IBOutlet weak var scroll: UIScrollView!
     var userDrinks: [DrinkLocal] = []
     var userFavorites: [DrinkLocal] = []
     var allDrinks: [DrinkLocal] = []
@@ -26,6 +27,7 @@ class UserSelectionViewController: UIViewController {
         userFavoritesCollectionView.dataSource = self
         userFavoritesCollectionView.delegate = self
         
+        scroll.isDirectionalLockEnabled = true
         self.userDrinksCollectionView.register(UINib.init(nibName: "DrinkCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "drinkCell")
         self.userFavoritesCollectionView.register(UINib.init(nibName: "DrinkCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "drinkCell")
     }
@@ -44,6 +46,11 @@ class UserSelectionViewController: UIViewController {
         }
         self.userDrinksCollectionView.reloadData()
         self.userFavoritesCollectionView.reloadData()
+    }
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if scroll.contentOffset.x>0 {
+            scroll.contentOffset.x = 0
+        }
     }
 }
 
@@ -67,19 +74,21 @@ extension UserSelectionViewController: UICollectionViewDataSource, UICollectionV
         else {
             // else return favorite drinks
             cell.configure(with: self.userFavorites[indexPath.row])
+            print(self.userFavorites[indexPath.row].thumb!)
             return cell
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let inset: CGFloat = 15
-        //let minimumLineSpacing: CGFloat = 10
-        let minimumInteritemSpacing: CGFloat = 15
-        let cellsPerRow = 2
-        let marginsAndInsets = inset * 2 + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
-        let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow)).rounded(.down)
-        return CGSize(width: itemWidth, height: itemWidth+20)
+        let numberOfItemsPerRow = 2
+        let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
+        let totalSpace = flowLayout.sectionInset.left
+            + flowLayout.sectionInset.right
+            + (flowLayout.minimumInteritemSpacing * CGFloat(numberOfItemsPerRow - 1))
+        let size = Int((collectionView.bounds.width - totalSpace) / CGFloat(numberOfItemsPerRow))
+        
+        return CGSize(width: size, height: size+(size/2))
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 10.0

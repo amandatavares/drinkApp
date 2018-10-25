@@ -96,14 +96,17 @@ class NewDrinkViewController: UIViewController {
     }
     
     @IBAction func addIngredient(_ sender: Any) {
-        var ingredient: Ingredient? = Ingredient()
+        var ingredient: Ingredient?
         
         if let name = self.ingredientTextField.text,
-            let measure = self.measureTextField.text {
-                ingredient = manager.saveIngredient(name: name, measure: measure)
+            let measure = self.measureTextField.text, let drink = self.drink {
+            ingredient = manager.saveIngredient(of: drink, name: name, measure: measure)
                 //print(ingredient!)
+            if let ingredient = ingredient {
+                self.ingredients?.append(ingredient)
+            }
         }
-        self.ingredients?.append(ingredient!)
+        
         //print(self.ingredients!)
         self.ingredientsTableView.reloadData()
     }

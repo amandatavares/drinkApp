@@ -110,7 +110,7 @@ class DrinkViewController: UIViewController {
             
             for (index, ingredient) in self.ingredients.enumerated() {
                 if (ingredient != "" && ingredient != " " && self.measures[index] != "" && self.measures[index] != " ") {
-                    let newIngredient = coreData.saveIngredient(name: ingredient!, measure: self.measures[index]!)
+                    let newIngredient = coreData.saveIngredient(of: nil, name: ingredient!, measure: self.measures[index]!)
                     ingredientList.append(newIngredient!)
                 }
             }

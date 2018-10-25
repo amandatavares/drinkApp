@@ -82,11 +82,12 @@ class CoreDataManager: NSObject {
         try? context.save()
     }
     
-    public func saveIngredient(name: String, measure: String) -> Ingredient? {
+    public func saveIngredient(of drink: DrinkLocal?, name: String, measure: String) -> Ingredient? {
         var ingredientRet: Ingredient? = Ingredient()
         if let ingredient = NSEntityDescription.insertNewObject(forEntityName: "Ingredient", into: self.context) as? Ingredient {
             ingredient.name = name
             ingredient.measure = measure
+            ingredient.drink = drink
             
             ingredientRet = ingredient
             try? context.save()
