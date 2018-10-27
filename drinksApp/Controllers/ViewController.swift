@@ -128,6 +128,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
         else {
         // else return drinks
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "drinkCell", for: indexPath) as! DrinkCollectionViewCell
+            print(self.filteredDrinks.count)
             cell.configure(with: self.filteredDrinks[indexPath.row])
 
             return cell
