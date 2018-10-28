@@ -2,12 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Icon.png",
+      "filename" : "tipsy-white-2.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "110-2.png",
       "scale" : "2x"
     },
     {

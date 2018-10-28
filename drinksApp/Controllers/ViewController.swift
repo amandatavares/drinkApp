@@ -102,7 +102,20 @@ class ViewController: UIViewController {
 
 extension ViewController: UISearchControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        
+        self.searchActive = true
+        guard let text = searchController.searchBar.text else { return }
+        print(text)
+    }
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        let lowerSearchText = searchText.lowercased()
+        self.searchActive = true
+        filteredDrinks = searchText.isEmpty ? drinks: drinks.filter { drink -> Bool in
+            return drink.name!.lowercased().hasPrefix(lowerSearchText)
+        }
+        drinksCollectionView.reloadData()
+    }
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        self.searchActive = false
     }
 }
 
@@ -128,7 +141,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
         else {
         // else return drinks
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "drinkCell", for: indexPath) as! DrinkCollectionViewCell
-            print(self.filteredDrinks.count)
+            //print(self.filteredDrinks.count)
             cell.configure(with: self.filteredDrinks[indexPath.row])
 
             return cell
@@ -197,7 +210,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
                         }
                     })
                 })
-                print(self.filteredDrinks.count)
+                //print(self.filteredDrinks.count)
                 DispatchQueue.main.async {
                     self.drinksLabel.text = "Category: \(categories[indexPath.row].name!)"
                     self.seeAllBtn.alpha = 1
