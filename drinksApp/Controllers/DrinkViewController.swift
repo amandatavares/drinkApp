@@ -20,6 +20,7 @@ class DrinkViewController: UIViewController {
     @IBOutlet weak var drinkDirections: UILabel!
     @IBOutlet weak var favoriteButton: UIButton!
     
+    var helper: GlobalFunctions = GlobalFunctions()
     var ingredients: [String?] = []
     var measures: [String?] = []
     var isFavorite: Bool? = false
@@ -115,8 +116,13 @@ class DrinkViewController: UIViewController {
                 }
             }
             
-            if let id = self.drink?.id, let name = self.drink?.name, let directions = self.drink?.recipe, let category = self.drink?.category, let thumb = self.drink?.thumb {
-                coreData.saveDrink(id: id, name: name, ingredients: ingredientList, direction: directions, thumb: thumb, category: category, isFavorite: true)
+            var drinkFile: String = ""
+            if let drinkImage = self.drinkImageView.image {
+                drinkFile = saveImageDocumentDirectory(image: drinkImage)
+            } else { drinkFile = (drink?.thumb)! }
+            
+            if let id = self.drink?.id, let name = self.drink?.name, let directions = self.drink?.recipe, let category = self.drink?.category {
+                coreData.saveDrink(id: id, name: name, ingredients: ingredientList, direction: directions, thumb: drinkFile, category: category, isFavorite: true)
             }
         }
         else {
@@ -128,4 +134,13 @@ class DrinkViewController: UIViewController {
         }
     }
 
+    func saveImageDocumentDirectory(image: UIImage) -> String{
+        let filename = helper.getCurrentDate().appending(".jpg")
+        let filepath = helper.getDocumentsDirectory() + "/" + filename
+        
+        let image = image.jpegData(compressionQuality: 1.0)
+        FileManager.default.createFile(atPath: filepath, contents: image, attributes: nil)
+        return filename
+        
+    }
 }

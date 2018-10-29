@@ -34,14 +34,19 @@ class UserSelectionViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        //coreManager.dropDrinkDatabase()
         // Call Core Data
         self.allDrinks = coreManager.getUserDrinks()!
         for drink in self.allDrinks {
             if drink.isFavorite == true {
-                self.userFavorites.append(drink)
+                if !self.userFavorites.contains(drink) {
+                    self.userFavorites.append(drink)
+                }
             }
             else {
-                self.userDrinks.append(drink)
+                if !self.userDrinks.contains(drink) {
+                    self.userDrinks.append(drink)
+                }
             }
         }
         self.userDrinksCollectionView.reloadData()

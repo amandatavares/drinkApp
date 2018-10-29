@@ -104,6 +104,24 @@ class CoreDataManager: NSObject {
             fatalError("Failed to fetch: \(error)")
         }
     }
+    public func dropDrinkDatabase(){
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "DrinkLocal")
+        request.includesPropertyValues = false
+        
+        do {
+            let items = try context.fetch(request) as! [NSManagedObject]
+            
+            for item in items {
+                context.delete(item)
+            }
+            
+            // Save Changes
+            try context.save()
+            
+        } catch {
+            fatalError("Failed to drop: \(error)")
+        }
+    }
     
 }
 
