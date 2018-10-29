@@ -35,7 +35,8 @@ class ViewController: UIViewController {
         categoriesCollectionView.delegate = self
         drinksCollectionView.dataSource = self
         drinksCollectionView.delegate = self
-        
+        searchBar.delegate = self
+
         // Register cells
         self.categoriesCollectionView.register(UINib.init(nibName: "CategoryCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "categoryCell")
         self.drinksCollectionView.register(UINib.init(nibName: "DrinkCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "drinkCell")
@@ -46,6 +47,13 @@ class ViewController: UIViewController {
         else {
             print("3D Touch Not Available")
         }
+        
+        searchBar.returnKeyType = UIReturnKeyType.done
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        definesPresentationContext = true
+
+        // Customize search and navigation bar
         searchBar.backgroundImage = UIImage()
         searchBar.layer.borderWidth = 0
         if let searchTextField = searchBar.value(forKey: "searchField") as? UITextField {
@@ -101,22 +109,37 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: UISearchControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating {
+    
+
     func updateSearchResults(for searchController: UISearchController) {
-        self.searchActive = true
-        guard let text = searchController.searchBar.text else { return }
-        print(text)
+        //self.searchActive = true
+        print(searchBar.text!)
+//        if let searchText = searchController.searchBar.text {
+//            self.filteredDrinks = searchText.isEmpty ? drinks : drinks.filter({(dataString: DrinkList) -> Bool in
+//                print(searchText)
+//                return dataString.name!.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
+//
+//            })
+//
+//            self.drinksCollectionView.reloadData()
+//        }
     }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        let lowerSearchText = searchText.lowercased()
-        self.searchActive = true
-        filteredDrinks = searchText.isEmpty ? drinks: drinks.filter { drink -> Bool in
-            return drink.name!.lowercased().hasPrefix(lowerSearchText)
+        if searchBar.text == nil || searchBar.text == "" {
+            self.searchActive = false
+            self.filteredDrinks = self.drinks
+            view.endEditing(true)
+            drinksCollectionView.reloadData()
+        } else {
+            self.filteredDrinks = drinks.filter({ (drink) -> Bool in
+                return drink.name!.range(of: searchText, options: [ .caseInsensitive]) != nil
+            })
+            self.searchActive = !self.filteredDrinks.isEmpty
+            print(searchActive)
+            self.drinksCollectionView.reloadData()
         }
-        drinksCollectionView.reloadData()
     }
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        self.searchActive = false
-    }
+    
 }
 
 // Protocols
@@ -127,7 +150,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
             return self.categories.count
         }
         // else return drinks count
-        return self.drinks.count
+        return self.filteredDrinks.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -142,8 +165,9 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
         // else return drinks
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "drinkCell", for: indexPath) as! DrinkCollectionViewCell
             //print(self.filteredDrinks.count)
+           
             cell.configure(with: self.filteredDrinks[indexPath.row])
-
+            
             return cell
         }
     }

@@ -56,19 +56,6 @@ class DrinkCollectionViewCell: UICollectionViewCell, ImageDownloaderDelegate {
     }
     func didFinishDownloading(_ sender: ImageDownloader) {
         drinkImageView.image = imageDownloader?.image
-        
-        // Animate the appearance of this ViewController's
-        // user interface.
-//        UIView.animate(withDuration: 2.0, delay: 0.5, options: UIViewAnimationOptions.curveEaseIn, animations:  {
-//            self.loadingLabel.alpha = 0.0
-//            self.imageView.alpha = 1.0
-//        }) { (completed:Bool) in
-//            if (completed) {
-//                UIView.animate(withDuration: 2.0) {
-//                    self.loginView.alpha = 1.0
-//                }
-//            }
-//        }
     }
     
     public func configure(with model: DrinkLocal) {
