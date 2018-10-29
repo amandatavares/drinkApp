@@ -99,16 +99,19 @@ class NewDrinkViewController: UIViewController {
         var ingredient: Ingredient?
         
         if let name = self.ingredientTextField.text,
-            let measure = self.measureTextField.text, let drink = self.drink {
-            ingredient = manager.saveIngredient(of: drink, name: name, measure: measure)
+            let measure = self.measureTextField.text {
+            ingredient = manager.saveIngredient(of: nil, name: name, measure: measure)
                 //print(ingredient!)
-            if let ingredient = ingredient {
-                self.ingredients?.append(ingredient)
+            if let newIngredient = ingredient {
+                self.ingredients?.append(newIngredient)
             }
         }
         
         //print(self.ingredients!)
         self.ingredientsTableView.reloadData()
+        self.ingredientTextField.text = ""
+        self.measureTextField.text = ""
+        self.measureTextField.resignFirstResponder() 
     }
 }
 extension NewDrinkViewController {

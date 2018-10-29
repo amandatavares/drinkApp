@@ -48,6 +48,14 @@ class ViewController: UIViewController {
             print("3D Touch Not Available")
         }
         
+        //Looks for single or multiple taps.
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        
+        //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
+        //tap.cancelsTouchesInView = false
+        
+        view.addGestureRecognizer(tap)
+        
         searchBar.returnKeyType = UIReturnKeyType.done
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
@@ -109,8 +117,11 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: UISearchControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating {
-    
-
+    //Calls this function when the tap is recognized.
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
+    }
     func updateSearchResults(for searchController: UISearchController) {
         //self.searchActive = true
         print(searchBar.text!)
