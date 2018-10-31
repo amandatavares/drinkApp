@@ -31,6 +31,12 @@ class UserSelectionViewController: UIViewController {
         scroll.isDirectionalLockEnabled = true
         self.userDrinksCollectionView.register(UINib.init(nibName: "DrinkCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "drinkCell")
         self.userFavoritesCollectionView.register(UINib.init(nibName: "DrinkCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "drinkCell")
+        
+        let lpgr : UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(UserSelectionViewController.handleLongPress))
+        lpgr.minimumPressDuration = 0.5
+        lpgr.delegate = self
+        lpgr.delaysTouchesBegan = true
+    self.userDrinksCollectionView?.addGestureRecognizer(lpgr)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -58,9 +64,16 @@ class UserSelectionViewController: UIViewController {
             scroll.contentOffset.x = 0
         }
     }
+    
+}
+
+extension UserSelectionViewController: UIGestureRecognizerDelegate {
     // MARK: - Long Press Gesture Action Sheet
-    @IBAction func popUpActionCell(longPressGesture : UILongPressGestureRecognizer)
+    @objc func handleLongPress(longPressGesture : UILongPressGestureRecognizer)
     {
+        if (longPressGesture.state != UIGestureRecognizer.State.ended){
+            return
+        }
         // Delete selected Cell
         let point = longPressGesture.location(in: self.userDrinksCollectionView)
         let indexPath = self.userDrinksCollectionView.indexPathForItem(at: point)
@@ -72,6 +85,8 @@ class UserSelectionViewController: UIViewController {
             // Configure Remove Item Action
             let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { action in
                 self.coreManager.deleteDrink(drink: self.userDrinks[(indexPath?.row)!])
+                self.userDrinks.remove(at: (indexPath?.row)!)
+                
                 print("Cell Removed")
                 self.userDrinksCollectionView.reloadData()
             })
@@ -88,7 +103,6 @@ class UserSelectionViewController: UIViewController {
         }
     }
 }
-
 extension UserSelectionViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.userDrinksCollectionView {
