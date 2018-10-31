@@ -26,6 +26,7 @@ class DrinkViewController: UIViewController {
     var isFavorite: Bool? = false
     var drinkImage: UIImage?
     var drink: Drink?
+    var drinkLocal: DrinkLocal?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +36,23 @@ class DrinkViewController: UIViewController {
         }
     }
     override func viewWillAppear(_ animated: Bool) {
+        if drinkLocal != nil {
+            if let nameLabel = self.drinkName, let catLabel = self.drinkCategory, let dirLabel = self.drinkDirections {
+                nameLabel.text = drinkLocal!.name
+                catLabel.text = drinkLocal!.category
+                dirLabel.text = drinkLocal!.direction
+                
+//                let ingredientsLocal = Array(drinkLocal!.ingredients!) as! [Ingredient]
+                
+//                for ingredient in ingredientsLocal {
+//                    if let ingLabel = self.drinkIngredients, let measLabel = self.drinkMeasures {
+//                        ingLabel.text?.append(contentsOf: "\(ingredient.name ?? "") \n")
+//                        measLabel.text?.append(contentsOf: "\(ingredient.measure ?? "") \n")
+//                    }
+//                }
+                
+            }
+        }
         
         guard let drink = self.drink else {
             return

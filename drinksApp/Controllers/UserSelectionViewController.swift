@@ -17,6 +17,7 @@ class UserSelectionViewController: UIViewController {
     var userDrinks: [DrinkLocal] = []
     var userFavorites: [DrinkLocal] = []
     var allDrinks: [DrinkLocal] = []
+    var drinkLocal: DrinkLocal?
     
     var coreManager: CoreDataManager = CoreDataManager()
     
@@ -57,6 +58,35 @@ class UserSelectionViewController: UIViewController {
             scroll.contentOffset.x = 0
         }
     }
+    // MARK: - Long Press Gesture Action Sheet
+    @IBAction func popUpActionCell(longPressGesture : UILongPressGestureRecognizer)
+    {
+        // Delete selected Cell
+        let point = longPressGesture.location(in: self.userDrinksCollectionView)
+        let indexPath = self.userDrinksCollectionView.indexPathForItem(at: point)
+        //        let cell = self.collectionView?.cellForItem(at: indexPath!)
+        if indexPath != nil
+        {
+            let alertActionCell = UIAlertController(title: "Action Recipe Cell", message: "Choose an action for the selected recipe", preferredStyle: .actionSheet)
+            
+            // Configure Remove Item Action
+            let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { action in
+                self.coreManager.deleteDrink(drink: self.userDrinks[(indexPath?.row)!])
+                print("Cell Removed")
+                self.userDrinksCollectionView.reloadData()
+            })
+            
+            // Configure Cancel Action Sheet
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { acion in
+                print("Cancel actionsheet")
+            })
+            
+            alertActionCell.addAction(deleteAction)
+            alertActionCell.addAction(cancelAction)
+            self.present(alertActionCell, animated: true, completion: nil)
+            
+        }
+    }
 }
 
 extension UserSelectionViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -79,10 +109,11 @@ extension UserSelectionViewController: UICollectionViewDataSource, UICollectionV
         else {
             // else return favorite drinks
             cell.configure(with: self.userFavorites[indexPath.row])
-            print(self.userFavorites[indexPath.row].thumb!)
+//            print(self.userFavorites[indexPath.row].thumb!)
             return cell
         }
     }
+    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         

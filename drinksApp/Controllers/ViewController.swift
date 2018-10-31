@@ -48,14 +48,6 @@ class ViewController: UIViewController {
             print("3D Touch Not Available")
         }
         
-        //Looks for single or multiple taps.
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
-        
-        //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
-        //tap.cancelsTouchesInView = false
-        
-        view.addGestureRecognizer(tap)
-        
         searchBar.returnKeyType = UIReturnKeyType.done
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
@@ -71,6 +63,7 @@ class ViewController: UIViewController {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         navigationController?.navigationBar.shadowImage = UIImage()
     
+        self.drinksLabel.text = "All"
         self.seeAllBtn.alpha = 0
         //registerForPreviewing(with: self, sourceView: view)
         //self.filteredDrinks = self.drinks
@@ -116,24 +109,18 @@ class ViewController: UIViewController {
     
 }
 
-extension ViewController: UISearchControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating {
+extension ViewController: UISearchControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating, UITextFieldDelegate {
     //Calls this function when the tap is recognized.
-    func dismissKeyboard() {
-        //Causes the view (or one of its embedded text fields) to resign the first responder status.
-        view.endEditing(true)
+  
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        self.view.endEditing(true)
     }
     func updateSearchResults(for searchController: UISearchController) {
         //self.searchActive = true
         print(searchBar.text!)
-//        if let searchText = searchController.searchBar.text {
-//            self.filteredDrinks = searchText.isEmpty ? drinks : drinks.filter({(dataString: DrinkList) -> Bool in
-//                print(searchText)
-//                return dataString.name!.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
-//
-//            })
-//
-//            self.drinksCollectionView.reloadData()
-//        }
     }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchBar.text == nil || searchBar.text == "" {
@@ -150,7 +137,6 @@ extension ViewController: UISearchControllerDelegate, UISearchBarDelegate, UISea
             self.drinksCollectionView.reloadData()
         }
     }
-    
 }
 
 // Protocols
