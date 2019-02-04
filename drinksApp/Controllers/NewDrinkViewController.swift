@@ -11,7 +11,7 @@ import CoreData
 
 class NewDrinkViewController: UIViewController {
 
-    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var tableView: UITableView!
     
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var ingredientTextField: UITextField!
@@ -40,17 +40,19 @@ class NewDrinkViewController: UIViewController {
         categoryPicker.delegate = self
         ingredientsTableView.dataSource = self
         
-        scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.view.frame.height+200)
-        
         nameTextField.delegate = self
         ingredientTextField.delegate = self
         measureTextField.delegate = self
         directionsTextField.delegate = self
         
         saveButton.layer.cornerRadius = constants.cornerRadius
-        let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(keyboardWillHide), name:UIResponder.keyboardWillHideNotification, object: nil)
+        
+        tableView.delegate = self as UITableViewDelegate
+        tableView.dataSource = self as UITableViewDataSource
+        
+//        let notificationCenter = NotificationCenter.default
+//        notificationCenter.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: nil)
+//        notificationCenter.addObserver(self, selector: #selector(keyboardWillHide), name:UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @IBAction func addDrinkImage(_ sender: Any) {
@@ -113,6 +115,22 @@ class NewDrinkViewController: UIViewController {
         self.measureTextField.text = ""
         self.measureTextField.resignFirstResponder() 
     }
+}
+extension NewDrinkViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 5
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return UITableViewCell()
+        
+    }
+    
+    
 }
 extension NewDrinkViewController {
     // Aditional Functions to handle camera options
@@ -184,18 +202,18 @@ extension NewDrinkViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
 }
 
-extension NewDrinkViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.ingredients!.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = self.ingredients?[indexPath.row].name!
-        cell.detailTextLabel?.text = self.ingredients?[indexPath.row].measure!
-        return cell
-    }
-}
+//extension NewDrinkViewController: UITableViewDataSource {
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return self.ingredients!.count
+//    }
+//    
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+//        cell.textLabel?.text = self.ingredients?[indexPath.row].name!
+//        cell.detailTextLabel?.text = self.ingredients?[indexPath.row].measure!
+//        return cell
+//    }
+//}
 
 extension NewDrinkViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -203,20 +221,4 @@ extension NewDrinkViewController: UITextFieldDelegate {
         return true
     }
     
-    @objc func keyboardWillShow(notification:NSNotification){
-        
-        var userInfo = notification.userInfo!
-        var keyboardFrame:CGRect = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
-        keyboardFrame = self.view.convert(keyboardFrame, from: nil)
-        
-        var contentInset:UIEdgeInsets = self.scrollView.contentInset
-        contentInset.bottom = keyboardFrame.size.height
-        scrollView.contentInset = contentInset
-    }
-    
-    @objc func keyboardWillHide(notification:NSNotification){
-        
-        let contentInset:UIEdgeInsets = UIEdgeInsets.zero
-        scrollView.contentInset = contentInset
-    }
 }

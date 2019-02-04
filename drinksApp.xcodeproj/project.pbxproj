@@ -19,6 +19,10 @@
 		815ADB0121762AAD00028CC4 /* CategoryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 815ADAFF21762AAD00028CC4 /* CategoryCollectionViewCell.xib */; };
 		815ADB0321764DD000028CC4 /* Drink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815ADB0221764DD000028CC4 /* Drink.swift */; };
 		8163464A2186548800007C9E /* LauchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816346492186548800007C9E /* LauchScreenViewController.swift */; };
+		81A18967220860EB0088C4B2 /* DrinkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A18965220860EB0088C4B2 /* DrinkTableViewCell.swift */; };
+		81A18968220860EB0088C4B2 /* DrinkTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81A18966220860EB0088C4B2 /* DrinkTableViewCell.xib */; };
+		81A1896B220861000088C4B2 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A18969220861000088C4B2 /* CategoryTableViewCell.swift */; };
+		81A1896C220861000088C4B2 /* CategoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81A1896A220861000088C4B2 /* CategoryTableViewCell.xib */; };
 		81AA66812177B522008DA53E /* ResponseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AA66802177B522008DA53E /* ResponseManager.swift */; };
 		81AA668321783B6E008DA53E /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AA668221783B6E008DA53E /* Category.swift */; };
 		81AA66852178A5A0008DA53E /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AA66842178A5A0008DA53E /* CoreDataManager.swift */; };
@@ -47,6 +51,10 @@
 		815ADAFF21762AAD00028CC4 /* CategoryCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryCollectionViewCell.xib; sourceTree = "<group>"; };
 		815ADB0221764DD000028CC4 /* Drink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drink.swift; sourceTree = "<group>"; };
 		816346492186548800007C9E /* LauchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LauchScreenViewController.swift; sourceTree = "<group>"; };
+		81A18965220860EB0088C4B2 /* DrinkTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkTableViewCell.swift; sourceTree = "<group>"; };
+		81A18966220860EB0088C4B2 /* DrinkTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DrinkTableViewCell.xib; sourceTree = "<group>"; };
+		81A18969220861000088C4B2 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
+		81A1896A220861000088C4B2 /* CategoryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryTableViewCell.xib; sourceTree = "<group>"; };
 		81AA66802177B522008DA53E /* ResponseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseManager.swift; sourceTree = "<group>"; };
 		81AA668221783B6E008DA53E /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		81AA66842178A5A0008DA53E /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -125,6 +133,10 @@
 				815ADAFB21762A9700028CC4 /* DrinkCollectionViewCell.xib */,
 				815ADAFE21762AAD00028CC4 /* CategoryCollectionViewCell.swift */,
 				815ADAFF21762AAD00028CC4 /* CategoryCollectionViewCell.xib */,
+				81A18965220860EB0088C4B2 /* DrinkTableViewCell.swift */,
+				81A18966220860EB0088C4B2 /* DrinkTableViewCell.xib */,
+				81A18969220861000088C4B2 /* CategoryTableViewCell.swift */,
+				81A1896A220861000088C4B2 /* CategoryTableViewCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -216,7 +228,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				815ADAEC2176064E00028CC4 /* LaunchScreen.storyboard in Resources */,
+				81A1896C220861000088C4B2 /* CategoryTableViewCell.xib in Resources */,
 				815ADB0121762AAD00028CC4 /* CategoryCollectionViewCell.xib in Resources */,
+				81A18968220860EB0088C4B2 /* DrinkTableViewCell.xib in Resources */,
 				815ADAE92176064E00028CC4 /* Assets.xcassets in Resources */,
 				815ADAE42176064C00028CC4 /* Main.storyboard in Resources */,
 				815ADAFD21762A9700028CC4 /* DrinkCollectionViewCell.xib in Resources */,
@@ -239,11 +253,13 @@
 				81AA66812177B522008DA53E /* ResponseManager.swift in Sources */,
 				815ADAE12176064C00028CC4 /* ViewController.swift in Sources */,
 				81AA6693217D43FD008DA53E /* Constants.swift in Sources */,
+				81A18967220860EB0088C4B2 /* DrinkTableViewCell.swift in Sources */,
 				815ADADF2176064C00028CC4 /* AppDelegate.swift in Sources */,
 				81AA668321783B6E008DA53E /* Category.swift in Sources */,
 				815ADB0321764DD000028CC4 /* Drink.swift in Sources */,
 				81AA66892178C0BB008DA53E /* UserSelectionViewController.swift in Sources */,
 				81AA66852178A5A0008DA53E /* CoreDataManager.swift in Sources */,
+				81A1896B220861000088C4B2 /* CategoryTableViewCell.swift in Sources */,
 				81AA668B2178C0CC008DA53E /* DrinkViewController.swift in Sources */,
 				81AA669B217F6C53008DA53E /* Extensions.swift in Sources */,
 				815ADAFC21762A9700028CC4 /* DrinkCollectionViewCell.swift in Sources */,

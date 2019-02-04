@@ -30,6 +30,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         registerPushNotification()
+        
+        let navigationBarAppearace = UINavigationBar.appearance()
+        navigationBarAppearace.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        //navigationBarAppearace.tintColor = uicolorFromHex(0xffffff)
+        navigationBarAppearace.barTintColor = #colorLiteral(red: 0.937254902, green: 0.937254902, blue: 0.937254902, alpha: 1)
+        
         return true
     }
 
